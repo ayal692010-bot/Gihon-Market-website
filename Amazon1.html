@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ግዮን ማርኬት </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body{
+      margin: 0;
+      font-family: Arial, sans-serif;
+      padding-top: 150px; /* Space for fixed headers */
+      background-color: #f5f5f5;
+    }
+
+ /* Section 1: Menu and Cart */
+    .section-1 {
+      position: fixe;
+      margin-top:-150px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      background-color: green;
+      color: white;
+      z-index: 1000;
+      box-sizing: border-box;
+    }
+
+    .menu-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .openbtn {
+      font-size: 16px;
+      cursor: pointer;
+      background-color: transparent;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      margin-right: 15px;
+      border-radius: 3px;
+    }
+
+    .openbtn:hover {
+      background-color: #485769;
+    }
+
+    .cart-section {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: white;
+    }
+
+    .cart-section a {
+      text-decoration: none;
+      color: red;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin-top:-20px;
+    }
+
+    .cartitem {
+      background-color: #ff9900;
+      color: green;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      position: absolute;
+      top: -5px;
+      right: 10px;
+      margin-top:20px
+      ;
+    }
+
+    .cart-icon {
+      font-size: 24px;
+      margin-top:30px
+    }
+
+    .cart-label {
+      display: flex;
+      font-size: 12px;
+      margin-top: px;
+      color: white;
+      font-size:15px;
+      font-weight:bold;
+    }
+    /* Section 2: Search Bar */
+    .section-2 {
+    display :flex;
+      position: fixe;
+      
+      top: 60px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      background-color: green;
+      padding: 8px 15px;
+      z-index: 999;
+      box-sizing: border-box;
+    }
+
+    .search-container {
+      display: flex;
+      margin-top:-15px;
+      align-items: center;
+      background: white;
+      border-radius: 4px;
+      padding: 5px 10px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .input-js {
+      border: none;
+      outline: none;
+      padding: 8px;
+      flex: 1;
+      width: 100%;
+    }
+
+    #search-glass-js {
+    
+      
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      margin-left: 10px;
+     
+    }
+
+    /* Section 3: Categories with Auto-Scroll Animation */
+    .section-3 {
+      margin-top:-5px;
+      position: fixe;
+      top: 110px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      background-color: white;
+      padding: 8px 15px;
+      z-index: 998;
+      box-sizing: border-box;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .itemcatogery-js {
+      display: flex;
+      gap: 15px;
+      flex: 1;
+      position: relative;
+    }
+
+    /* Auto-scrolling wrapper */
+    .scrolling-wrapper {
+      display: flex;
+      gap: 15px;
+      animation: scrollCategories 30s linear infinite;
+      padding: 5px 0;
+    }
+
+    /* Animation keyframes */
+    @keyframes scrollCategories {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    /* Pause animation on hover */
+    .scrolling-wrapper:hover {
+      animation-play-state: paused;
+    }
+
+    .itemcatogery-js a {
+      color: black;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 5px 10px;
+      border-radius: 3px;
+      background-color: ;
+      transition: background-color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .itemcatogery-js:hover,
+  .itemcatogery-js:active,
+  .itemcatogery-js:focus {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    -webkit-tap-highlight-color:  transparent !important;
+}
+
+    /* Section 4: Products Grid */
+    .section-4 {
+      padding: 15px;
+      max-width: 1500px;
+      margin: auto;
+    }
+
+      .dani {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .ayal {
+      border: 1px soli #ddd;
+      border-radius: 8px;
+      padding-left: 1px;
+      text-align: left;
+      background: #ff;
+      
+      transition: transform 0.2s, box-shadow
+       0.2s;
+      position: relative;
+      font-size:20px;
+      padding-bottom: -15px;
+      gap:100px;
+      
+      
+      
+      
+    }
+
+    ayal:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 400px; /* ⬆️ CHANGED from 120px to 200px */
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-size:40px;
+      padding-top:-20px;
+    }
+
+    .product-title {
+      font-size: 14px;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      height: 36px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      color: #0F1111;
+      
+    }
+    
+
+    .product-price {
+      color: #B12704;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .product-original-price {
+      color: #565959;
+      text-decoration: line-through;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .product-savings {
+      color: #B12704;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+
+    .product-rating-stars {
+      color: #FFA41C;
+      margin-right: 5px;
+    }
+
+    .product-sold {
+      color: #565959;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .product-badge {
+      background-color: tomato;
+      color: white;
+      
+      font-size: 12px;
+      margin-bottom: 5px;
+      padding-bottom:-20px;
+      border-radius: 3px;
+      
+    }
+
+    .product-shipping {
+      color: #565959;
+      font-size: 12px;
+      margin-bottom: 5px;
+      padding-bottom:-20px;
+      
+      
+    }
+
+ .add-to-cart-js {
+      display: block;
+      margin: 10px auto 5px;
+      background-color: green;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      width: 80%;
+      transition: background-color 0.2s;
+    }
+
+    .add-to-cart-js:hover {
+      background-color: #f7ca00;
+    }
+
+    .remove-from-cart-js {
+      display: block;
+      margin: 5px auto;
+      background-color: #ff4d4d;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
+      width: 80%;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    .remove-from-cart-js:hover {
+      background-color: #ff3333;
+    }
+
+
+    .cart-quantity {
+      color: #666;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      
+      text-align: center;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #fff;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 80px;
+      z-index: 2000;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    }
+
+    .sidebar a {
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 16px;
+      color: #0F1111;
+      display: block;
+      transition: 0.2s;
+      border-bottom: 1px solid #eee;
+    }
+
+    .sidebar a:hover {
+      background: #f5f5f5;
+    }
+
+    .sidebar .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: #0F1111;
+      cursor: pointer;
+    }
+
+   
+    
+    .no-items-found {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      font-size: 18px;
+      color: #555;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .dani {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 10px;
+      }
+      
+      .section-1, .section-2, .section-3 {
+        padding: 8px 10px;
+      }
+      
+      .itemcatogery-js {
+        gap: 10px;
+      }
+      
+      .product-image {
+        height: 180px; /* ⬆️ CHANGED from 200px to 180px */
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .dani {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+      
+      .cart-section {
+        margin-left: 10px;
+      }
+      
+      .product-image {
+        height: 150px; /* ⬆️ CHANGED from 80px to 150px */
+      }
+    }
+    .Gihon{
+       display: flex;
+      align-items: center;
+      gap: 5px;
+      color: tomato;
+      font-weight :bold;
+   }
+   a{
+       text-decoration:none;
+   }
+    .image-move-js:hover,
+  .image-move-js:active,
+  .image-move-js:focus {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    -webkit-tap-highlight-color:  transparent !important;
+}
+.account-home-js:hover,
+  .account-home-js:active,
+  .account-home-js:focus {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    -webkit-tap-highlight-color:  transparent !important;
+}
+.aaaa{
+    display:flex;
+    gap:10px;
+}
+   .product-image {
+    height: 250px; /* Desktop */
+}
+
+@media (max-width: 768px) {
+    .product-image {
+        height: 200px; /* Tablet */
+    }
+}
+
+@media (max-width: 480px) {
+    .product-image {
+        height: 170px; /* Mobile */
+    }
+}
+.nav-icon {
+      width: 24px;
+      height: 24px;
+      margin-bottom: -4px;
+      
+    }
+
+    .nav-text {
+      font-size: 12px;
+      color: violet;
+    }
+
+.logo-image {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+    
+    .content-container {
+  background-color: white;
+  display: flex;
+      justify-content: space-around;
+      align-items: center;  /* White container */
+}
+
+.content-container .item {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;  /* Black text for normal state */
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.content-container .item i {
+  font-size: 20px;
+  margin-bottom: 5px;
+  transition: color 0.3s;
+  color: green;  /* All icons black when inactive */
+}
+
+/* Active state - only the clicked item turns red */
+.content-container .item.active i,
+.content-container .item.active span {
+  color: #ff4747 !important;  /* Only active item turns red */
+}
+
+/* Optional: Add a small red dot under active item */
+.content-container .item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  width: 4px;
+  height: 4px;
+  background-color: #ff4747;
+  border-radius: 50%;
+}
+       .hello {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      padding: 10px 0;
+      z-index: 1000;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+
+    .content-container.horizontal {
+      flex-direction: row;
+    }
+    .content-container .item span {
+      font-size: 12px;
+    }
+    .content-container .item:hover,
+  .content-container .item:active,
+  .content-container .item:focus {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    -webkit-tap-highlight-color:  transparent !important;
+  }
+    
+    .gallery-container {
+      width: 40px;
+      height: 40px;
+      overflow: hidden;
+      border-radius: 50%;
+      margin: 0 5px;
+      position: relative;
+      flex-shrink: 0;
+      border: 1px solid #ddd;
+    }
+        
+    .gallery {
+      display: flex;
+      width: 80px;
+      height: 40px;
+      transition: transform 0.3s ease;
+    }
+        
+    .gallery-item {
+      min-width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Section 1: Menu and Cart -->
+  <div class="section-1">
+    <div class="menu-container">
+      <button class="openbtn" onclick="openSidebar()">☰ Menu</button>
+      <div class="Gihon">
+           <img src="Gihon/2025101720100867.jpg" alt="Logo" class="logo-image">
+          ግዮን ማርኬት 💫
+       </div>
+    </div>https
+    <div class="cart-section">
+      <a href="orderitem.html">
+        <span class="cart-icon">🛒</span>
+        <span class="cartitem">0</span>
+        <div class="cart-label">Cart</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Section 2: Search Bar -->
+  <div class="section-2">
+    <div class="search-container">
+      <input class="input-js" placeholder="Search Gihon Products....">
+      <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" alt="Search" id="search-glass-js">
+    </div>
+  </div>
+
+  <!-- Section 3: Categories with Auto-Scroll -->
+  <div class="section-3">
+    <div class="itemcatogery-js">
+      <div class="scrolling-wrapper">
+        <a href="Amazon1.html">All</a>
+        <a href="Electronics.html">Electronics</a>
+        <a href="fruit-vegetable.html">Fruit & Vegetables</a>
+        <a href="bakery.html">Bakery</a>
+        <a href="Amazon2.html">Amazon2</a>
+        <!-- Duplicate categories for seamless looping -->
+        <a href="Amazon1.html">All</a>
+        <a href="Electronics.html">Electronics</a>
+        <a href="fruit-vegetable.html">Fruit & Vegetables</a>
+        <a href="bakery.html">Bakery</a>
+        <a href="Amazon2.html">Amazon2</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Menu -->
+  <div id="mySidebar" class="sidebar">
+    <button class="close-btn" onclick="closeSidebar()">❌</button>
+    <a href="Amazon1.html">All</a>
+    <a href="Electronics.html">Electronics</a>
+    <a href="fruit-vegetable.html">Fruit & Vegetables</a>
+    <a href="bakery.html">Bakery</a>
+    <div class="item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </div>
+      <div class="item">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </div>
+  </div>
+
+  <!-- Section 4: Products -->
+  <div class="section-4">
+    <div class="dani"></div>
+    <div class="yo"></div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="hello">
+    <div id="contentContainer" class="content-container horizontal">
+      <div class="item" id="home">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </div>
+      
+      <div class="item">
+        <i class="fas fa-archive"></i>
+        <span>Storage</span>
+      </div>
+      
+      <!-- Small gallery container between Storage and Gallery -->
+      <div class="gallery-container">
+        <div id="gallery" class="gallery"></div>
+      </div>
+  
+      <div class="item">
+        <i class="fas fa-image"></i>
+        <span>Gallery</span>
+      </div>
+      
+      <div class="item">
+        <i class="fas fa-user"></i>
+        <span>My Account</span>
+      </div>
+      
+    </div>
+  </div>
+
+  <script>
+     const shippingitem = [{
+          image:'Gihon/FB_IMG_1759939029089.jpg'
+      },{
+          image:"Gihon/FB_IMG_1759939291253.jpg"
+      },{
+          image:'Gihon/FB_IMG_1759940054777.jpg'
+      }] ;
+    
+    function localshipping(){
+        const gallery = document.getElementById('gallery');
+        if (!gallery) return;
+        
+        gallery.innerHTML = "";
+        
+        // Create gallery items
+        shippingitem.forEach((item) => {
+            const shippingElement = document.createElement('div');
+            shippingElement.className = 'gallery-item';
+            shippingElement.innerHTML = `<img src="${item.image}" alt="image" style="width:40px; height:40px; object-fit:cover; border-radius:50%;">`;
+            gallery.appendChild(shippingElement);
+        });
+
+        let currentimage = 0;
+        const totalimage = shippingitem.length;
+        
+        function showimage(imagenumber) {
+            currentimage = imagenumber;
+            const translateX = -40 * imagenumber;
+            gallery.style.transform = `translateX(${translateX}px)`;
+        }
+        
+        function nextImage() {
+            currentimage = (currentimage + 1) % totalimage;
+            showimage(currentimage);
+        }
+        
+        // Start auto-scroll
+        setInterval(nextImage, 3000);
+        
+        // Show first image initially
+        showimage(0);
+    }
+    
+    // Call the function when DOM is loaded
+    document.addEventListener('DOMContentLoaded', localshipping);
+    
+    const products = [
+      { 
+        image: "Gihon/FB_IMG_1759938614798.jpg", 
+        name: "Shoes", 
+        price: 15,
+        originalPrice: 20.22,
+        savings: "$5.22",
+        rating: 4.6,
+        sold: 900,
+        badge: "Choice",
+        shipping: "Ship from US",
+        detailPage: "product-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759938788612.jpg", 
+        name: "Women Shoes", 
+        price: 20,
+        originalPrice: 26.22,
+        savings: "$6.22",
+        rating: 4.6,
+        sold: 1200,
+        badg: "New shoppers save $3.23",
+        shipping: "Ship from Bishoftu",
+        detailPage: "product-detail.html"
+      },
+      // ... rest of your products array remains the same
+      { 
+        image: "Gihon/FB_IMG_1759938873664.jpg", 
+        name: "Backpack", 
+        price: 15,
+        originalPrice: 20,
+        savings: "$5.00",
+        rating: 4.9,
+        sold: 10000,
+        badge: "Choice",
+        shipping: "Dollar Express",
+        detailPage: "product-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759938594692.jpg", 
+        name: "Tshirt", 
+        price: 23,
+        originalPrice: 30,
+        savings: "$7.00",
+        rating: 4.9,
+        sold: 197,
+        badg: "New shoppers save $14.21",
+        shipping: "Ship from Bishoftu",
+        detailPage: "product-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759938815251.jpg", 
+        name: "Men shoes", 
+        price: 500,
+        originalPrice: 550,
+        savings: "$50.00",
+        rating: 4.8,
+        sold: 71,
+        badg: "$5 off on $45",
+        shipping: "Ship from Adama",
+        detailPage: "product-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759938594692.jpg", 
+        name: "Socks", 
+        price: 15,
+        originalPrice: 20,
+        savings: "$5.00",
+        rating: 4.5,
+        sold: 2000,
+        badg: "Top selling on Gihon",
+        shipping: "",
+        detailPage: "product-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759938788612.jpg", 
+        name: "Apple", 
+        price: 2,
+        originalPrice: 3,
+        savings: "$1.00",
+        rating: 4.7,
+        sold: 500,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "fruit-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759939955173.jpg", 
+        name: "Orange", 
+        price: 3,
+        originalPrice: 4,
+        savings: "$1.00",
+        rating: 4.8,
+        sold: 800,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "fruit-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759939977988.jpg", 
+        name: "Carrot", 
+        price: 8,
+        originalPrice: 10,
+        savings: "$2.00",
+        rating: 2.6,
+        sold: 300,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "fruit-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759940624122.jpg", 
+        name: "Cabbage", 
+        price: 3,
+        originalPrice: 5,
+        savings: "$2.00",
+        rating: 4.5,
+        sold: 450,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "fruit-detail.html"
+      },
+      { 
+        image: "Gihon/Screenshot_20251008_192657_AliExpress.jpg", 
+        name: "Smart Tv", 
+        price: 2,
+        originalPrice: 3,
+        savings: "$1.00",
+        rating: 4.7,
+        sold: 1200,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "Electronics-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759940201565.jpg", 
+        name: "Old Tv", 
+        price: 3,
+        originalPrice: 5,
+        savings: "$2.00",
+        rating: 4.3,
+        sold: 200,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "Electronics-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759940659511.jpg", 
+        name: "Camera", 
+        price: 5,
+        originalPrice: 8,
+        savings: "$3.00",
+        rating: 4.9,
+        sold: 1500,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "Electronics-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759939955173.jpg", 
+        name: "Alarm Device", 
+        price: 7,
+        originalPrice: 10,
+        savings: "$3.00",
+        rating: 4.4,
+        sold: 600,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "Electronics-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759939977988.jpg", 
+        name: "Ice Cream Cake", 
+        price: 12,
+        originalPrice: 15,
+        savings: "$3.00",
+        rating: 4.8,
+        sold: 800,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "bakery-detail.html"
+      },
+      { 
+        image: "Gihon/FB_IMG_1759940025470.jpg", 
+        name: "Soft Serve", 
+        price: 8,
+        originalPrice: 10,
+        savings: "$2.00",
+        rating: 4.6,
+        sold: 500,
+        badge: "Choice",
+        shipping: "ship from Adama",
+        detailPage: "bakery-detail.html"
+      },
+      { 
+        image: "Gihon/Screenshot_20251008_192740_AliExpress.jpg", 
+        name: "Chocolate Cake", 
+        price: 25,
+        originalPrice: 30,
+        savings: "$5.00",
+        rating: 4.9,
+        sold: 1200,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "bakery-detail.html"
+      },
+      { 
+        image: "Gihon/Screenshot_20251008_192840_AliExpress.jpg", 
+        name: "Cheesecake", 
+        price: 18,
+        originalPrice: 22,
+        savings: "$4.00",
+        rating: 4.7,
+        sold: 900,
+        badge: "Choice",
+        shipping: "from ",
+        detailPage: "bakery-detail.html"
+      }
+    ];
+    
+    // Function to save clicked product for detail pages
+    function selectProduct(productName, productPrice, productImage, productRating, productSold, detailPage) {
+        const selectedProduct = {
+            name: productName,
+            price: productPrice,
+            image: productImage,
+            rating: productRating,
+            sold: productSold
+        };
+        
+        // Store the selected product in localStorage
+        localStorage.setItem('chosenFruit', JSON.stringify(selectedProduct));
+        
+        // Navigate to the appropriate details page
+        window.location.href = detailPage;
+    }
+    
+    function openSidebar() {
+      document.getElementById("mySidebar").style.width = "250px";
+    }
+
+    function closeSidebar() {
+      document.getElementById("mySidebar").style.width = "0";
+    }
+    
+    // Load cart from localStorage
+    let cartitem = JSON.parse(localStorage.getItem('cartitem')) || [];
+
+    // Function to update cart display
+    function updateCartDisplay() {
+      let Totalquantity = cartitem.reduce((sum, item) => sum + item.quantity, 0);
+      document.querySelector('.cartitem').innerHTML = Totalquantity;
+    }
+
+    // ✅ Show cart total immediately when page loads
+    document.addEventListener("DOMContentLoaded", () => {
+      updateCartDisplay();
+      
+      // Add click event listeners to navigation items
+      document.querySelectorAll('.content-container .item').forEach(item => {
+        item.addEventListener('click', function() {
+          // Remove active class from all items
+          document.querySelectorAll('.content-container .item').forEach(i => {
+            i.classList.remove('active');
+          });
+          // Add active class to clicked item
+          this.classList.add('active');
+        });
+      });
+      
+      // Initialize category scrolling animation
+      initCategoryAnimation();
+    });
+
+    // Initialize category scrolling animation
+    function initCategoryAnimation() {
+      const categoryContainer = document.querySelector('.itemcatogery-js');
+      const scrollingWrapper = document.querySelector('.scrolling-wrapper');
+      
+      // Optional: Dynamically duplicate categories for seamless scrolling
+      // This ensures we always have enough content for smooth looping
+      if (scrollingWrapper) {
+        const categories = scrollingWrapper.innerHTML;
+        scrollingWrapper.innerHTML = categories + categories;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('home').classList.add('active');
+    });
+
+    function saveTostorage() {
+      localStorage.setItem('cartitem', JSON.stringify(cartitem));
+      updateCartDisplay(); // Update cart display after saving
+    }
+
+    function renderproducts(list){
+      let productHTML = "";
+      if(list.length === 0){
+        productHTML += `<div class="no-items-found"> ❌ No Matching Products</div>`;
+      } else {
+        list.forEach((items)=>{
+          // Find current quantity in cart for this product
+          let cartQuantity = 0;
+          let existingItem = cartitem.find(p => p.itemsName === items.name);
+          if (existingItem) {
+            cartQuantity = existingItem.quantity;
+          }
+          
+          // Generate star rating
+          const stars ='★';
+          
+          const star = '★ '.repeat(Math.floor(items.rating)) + '☆'.repeat(5 - Math.floor(items.rating));
+          
+          // onclick event for product images to connect with appropriate detail pages
+          productHTML += `
+            <div class="ayal">
+                <a href="javascript:void(0)" onclick="selectProduct('${items.name}', ${items.price}, '${items.image}','${items.rating}','${items.sold}', '${items.detailPage}')" class="image-move-js">
+                 <div style="font-size:100px;"><img src="${items.image}" alt="${items.name}" class="product-image" ></div>
+                </a>
+                <div class="aaa">
+                ${items.badge ? `<span class="product-badge">${items.badge}</span>` : ''}
+                <div class="aaaa">
+                    ${items.shipping ? `<div class="product-shipping">${items.shipping}</div>` : ''}
+                <div class="product-title" style="font-weight:bold; margin-bottom:5px; color: green; white-space:nowwrap;">${items.name}</div>
+                
+                
+                </div>
+                </div>
+                <div class="aaaa">
+                
+                ${items.originalPrice ? `<div class="product-original-price">$${items.originalPrice}</div>` : ''}
+                ${items.savings ? `<div class="product-savings">${items.savings}</div>` : ''}
+                
+                
+                </div>
+                
+                
+                
+                <div class="aaaa">
+                <div class="product-rating">
+                    <div class="product-price">$${items.price}</div>
+                  <span class="product-rating-stars">${stars}</span>
+                  <span>${items.rating}</span>
+                </div>
+                <div class="product-sold">${items.sold}+ sold</div>
+                </div>
+                
+                
+                <div class="cart-quantity"> items add to cart: ${cartQuantity}</div>
+                <div class="aaaa">
+                
+                </div>
+            </div>
+          `;
+        });
+      }
+      document.querySelector('.dani').innerHTML = productHTML
+       || "<div>your chart empty</div>";
+       
+      let html;
+      
+      // ✅ Add to cart logic (fixed)
+      document.querySelectorAll('.add-to-cart-js').forEach((button) => {
+        button.addEventListener('click', () => {
+          const itemsName = button.dataset.itemsName;
+
+          let existingItem = cartitem.find(p => p.itemsName === itemsName);
+
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            cartitem.push({ itemsName: itemsName, quantity: 1 });
+          }
+
+          saveTostorage();
+          renderproducts(list); // Re-render only the current list to update quantities
+        });
+      });
+
+      // ✅ Remove from cart logic (fixed)
+      document.querySelectorAll('.remove-from-cart-js').forEach((button) => {
+        button.addEventListener('click', () => {
+          const itemsName = button.dataset.itemsName;
+
+          let existingItem = cartitem.find(p => p.itemsName === itemsName);
+
+          if(existingItem){
+            existingItem.quantity -= 1;
+
+            // Remove item if quantity is 0
+            if(existingItem.quantity <= 0){
+              cartitem = cartitem.filter(p => p.itemsName !== itemsName);
+            }
+          }
+
+          saveTostorage();
+          renderproducts(list); // Re-render only the current list to update quantities
+        });
+      });
+    }
+
+    // Initial render
+    renderproducts(products);
+
+    // Search functionality
+    const searchInput = document.querySelector('.input-js');
+    const searchButton = document.getElementById('search-glass-js');
+
+    function doSearch() {
+      const query = searchInput.value.toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+      renderproducts(filtered);
+    }
+
+    searchInput.addEventListener('input', doSearch);
+    searchButton.addEventListener('click', doSearch);
+  </script>
+</body>
+</html>

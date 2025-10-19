@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Order Items</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+    body {
+        margin: 0;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+        flex-direction: column;
+    }
+    
+    .main-container {
+        display: flex;
+        gap: 20px;
+        max-width: 900px;
+        width: 100%;
+        margin: 0 auto;
+        flex: 1;
+    }
+    
+    .cart-container {
+        flex: 1;
+        background: white; /* Fixed typo: was 'whit' */
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Added shadow for consistency */
+    }
+    
+    .summary-container {
+        flex: 1;
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        height: fit-content;
+    }
+    
+    .cart-title {
+        text-align: center;
+        margin-bottom: 15px;
+        color: #333;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        font-size: 1.5em;
+    }
+    
+    .orderedItem {
+        margin-left: 15px;
+        margin-top: 5px;
+        width: 200px;
+    }
+    
+    .image-js {
+        margin-top: 5px;
+        border: none;
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        padding-bottom: 10px;
+        padding-right: 5px;
+        border-radius: 5px;
+    }
+    
+    .image-js img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+    
+    .quantity-js { 
+        color: grey; 
+        font-size: 14px; 
+    }
+    
+    .price-js { 
+        color: red; 
+        font-weight: bold; 
+        font-size: 16px;
+    }
+    
+    .name-js { 
+        color: black; 
+        font-weight: bold; 
+        margin-bottom: 5px;
+        font-size: 16px;
+    }
+    
+    .totalcart {
+        border: solid 1px lightgrey;
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .delivery-date-js { 
+        color: green; 
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+    
+    .actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 8px;
+    }
+    
+    .delete-js {
+        background-color: #ff4444;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+    
+    .update-js {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+    
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .decrease-js {
+        background-color: #ff4444;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+    
+    .radioselector {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 5px;
+        padding-right: 10px;
+        width: 100%;
+    }
+    
+    /* Order Summary Styles */
+    .order-summary h3 {
+        margin-top: 0;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        text-align: center;
+    }
+    
+    .order-summary div {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        padding: 5px 0;
+    }
+    
+    .order-summary .total {
+        font-weight: bold;
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+        margin-top: 10px;
+        font-size: 1.1em;
+    }
+    
+    .order-summary button {
+        width: 100%;
+        padding: 12px;
+        background-color: #ff9900;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 15px;
+        font-size: 16px;
+    }
+    
+    .order-summary button:hover {
+        background-color: #e68900;
+    }
+    
+    .free-shipping {
+        color: green;
+        font-weight: bold;
+    }
+    
+    
+    .market-title {
+        text-align: center;
+        font-weight: bold;
+        color: tomato;
+        margin-top: 10px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        padding: 10px 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
+    
+    .empty-cart {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+        font-size: 18px;
+    }
+    
+    .content-wrapper {
+        margin-top: 60px; /* Space for market title */
+        margin-bottom: 80px; /* Space for bottom nav */
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    
+    @media (max-width: 768px) {
+        .main-container {
+            flex-direction: column;
+        }
+        
+        .content-wrapper {
+            margin-top: 50px;
+            margin-bottom: 70px;
+        }
+        
+        .cart-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .orderedItem {
+            width: 100%;
+            margin-left: 0;
+        }
+        
+        .radioselector {
+            margin-left: 0;
+            margin-top: 10px;
+            flex-direction: row;
+        }
+    }
+    
+    a {
+        text-decoration: none;
+    }
+       .product-image {
+    height: 100px; /* Desktop */
+}
+
+@media (max-width: 768px) {
+    .product-image {
+        height: 200px; /* Tablet */
+    }
+}
+
+@media (max-width: 480px) {
+    .product-image {
+        height: 200px; /* Mobile */
+    }
+}
+
+
+
+  .content-container {
+  background-color: white;
+  display: flex;
+      justify-content: space-around;
+      align-items: center;  /* White container */
+}
+
+.content-container .item {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;  /* Black text for normal state */
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.content-container .item i {
+  font-size: 20px;
+  margin-bottom: 5px;
+  transition: color 0.3s;
+  color: black;  /* All icons black when inactive */
+}
+
+/* Active state - only the clicked item turns red */
+.content-container .item.active i,
+.content-container .item.active span {
+  color: #ff4747 !important;  /* Only active item turns red */
+}
+
+/* Optional: Add a small red dot under active item */
+.content-container .item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  width: 4px;
+  height: 4px;
+  background-color: #ff4747;
+  border-radius: 50%;
+}
+       .hello {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      padding: 10px 0;
+      z-index: 1000;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+
+    .content-container.horizontal {
+      flex-direction: row;
+    }
+    .content-container .item span {
+      font-size: 12px;
+    }
+    .content-container .item:hover,
+  .content-container .item:active,
+  .content-container .item:focus {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    -webkit-tap-highlight-color:  transparent !important;
+  }
+    
+    .gallery-container {
+      width: 40px;
+      height: 40px;
+      overflow: hidden;
+      border-radius: 50%;
+      margin: 0 5px;
+      position: relative;
+      flex-shrink: 0;
+      border: 1px solid #ddd;
+    }
+        
+    .gallery {
+      display: flex;
+      width: 80px;
+      height: 40px;
+      transition: transform 0.3s ease;
+    }
+        
+    .gallery-item {
+      min-width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      text-align: center;
+    }
+    
+</style>
+</head>
+<body>
+    <div class="market-title">🇪🇹 ግዖን ግብያ💫 🇪🇹</div>
+    
+    <div class="content-wrapper">
+        <div class="main-container">
+            <div class="cart-container">
+                <h2 class="cart-title">Your Shopping Cart</h2>
+                <div class="dani"></div>
+            </div>
+            
+            <div class="summary-container">
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    
+                    <div>
+                        <span>Items (<span id="item-count">0</span>):</span> 
+                        <span>$<span id="items-total">0.00</span></span>
+                    </div>
+                    
+                    <div>
+                        <span>Shipping & handling:</span>
+                        <span id="shipping-cost">$0.00</span>
+                    </div>
+                    
+                    <div>
+                        <span>Total before tax:</span>
+                        <span>$<span id="total-before-tax">0.00</span></span>
+                    </div>
+                   
+                    <div>
+                        <span>Estimated tax (10%):</span>
+                        <span>$<span id="tax-amount">0.00</span></span>
+                    </div>
+                    
+                    <div class="total">
+                        <span>Order total:</span>
+                        <span>$<span id="order-total">0.00</span></span>
+                    </div>
+                   
+                    <button onclick="placeOrder()">Place your order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- Bottom Navigation -->
+    
+  <div class="hello">
+    <div id="contentContainer" class="content-container horizontal">
+      <div class="item" id="home">
+        <a href="Amazon1.html"> <i class="fas fa-home"></i> </a>
+        <span>Home</span>
+      </div>
+      
+      
+<div class="item">
+  <i class="fas fa-archive"></i>
+  <span>Storage</span>
+</div>
+
+<div class="gallery-container">
+        <div id="gallery" class="gallery"></div>
+      </div>
+      
+      <div class="item">
+        <i class="fas fa-image"></i>
+        <span>Gallery</span>
+      </div>
+      
+      <div class="item">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </div>
+    </div>
+  </div>
+    <script>
+         const shippingitem = [{
+          image:'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400'
+      },{
+          image:"https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300"
+      },{
+          image:'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400&auto=format&fit=crop&crop=center'
+      }] ;
+        function localshipping(){
+        const gallery = document.getElementById('gallery');
+        if (!gallery) return;
+        
+        gallery.innerHTML = "";
+        
+        // Create gallery items
+        shippingitem.forEach((item) => {
+            const shippingElement = document.createElement('div');
+            shippingElement.className = 'gallery-item';
+            shippingElement.innerHTML = `<img src="${item.image}" alt="image" style="width:40px; height:40px; object-fit:cover; border-radius:50%;">`;
+            gallery.appendChild(shippingElement);
+        });
+
+        let currentimage = 0;
+        const totalimage = shippingitem.length;
+        
+        function showimage(imagenumber) {
+            currentimage = imagenumber;
+            const translateX = -40 * imagenumber;
+            gallery.style.transform = `translateX(${translateX}px)`;
+        }
+        
+        function nextImage() {
+            currentimage = (currentimage + 1) % totalimage;
+            showimage(currentimage);
+        }
+        
+        // Start auto-scroll
+        setInterval(nextImage, 3000);
+        
+        // Show first image initially
+        showimage(0);
+    }
+    
+    // Call the function when DOM is loaded
+    document.addEventListener('DOMContentLoaded', localshipping);
+        
+          // Add click event listeners to navigation items
+      document.querySelectorAll('.content-container .item').forEach(item => {
+        item.addEventListener('click', function() {
+          // Remove active class from all items
+          document.querySelectorAll('.content-container .item').forEach(i => {
+            i.classList.remove('active');
+          });
+          // Add active class to clicked item
+          this.classList.add('active');
+          
+        });
+      });
+  
+
+
+</script>
+    
+<script type="module" src="orderitem.js">
+    
+     
+</script>
+</body>
+</html>

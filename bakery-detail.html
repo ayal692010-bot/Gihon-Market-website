@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bakery Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <style>
+        body { 
+            font-family: Arial; 
+            padding: 0;
+            text-align: center;
+            margin: 0;
+            background: #f5f5f5;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            background: #232f3e;
+            color: white;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        
+        .back-btn {
+            background: #ff9900;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* FULLSCREEN Image Gallery Styles - FIXED */
+        .gallery-containe {
+            margin-top: 60px;
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            overflow: hidden;
+            touch-action: pan-y;
+        }
+
+        .gallery {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            height: 100%;
+            cursor: grab;
+            width: 100%;
+        }
+
+        .gallery:active {
+            cursor: grabbing;
+        }
+
+        .gallery::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-item {
+            flex: 0 0 100%;
+            width: 100%;
+            scroll-snap-align: start;
+            text-align: center;
+            height: 100%;
+            min-width: 100%;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            -webkit-user-drag: none;
+            user-select: none;
+        }
+
+        /* Image Indicators */
+        .image-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .indicator.active {
+            background: white;
+        }
+
+        /* Content containe - FIXED */
+       
+
+        /* Bakery Info Styles - FIXED */
+        .bakery-info {
+            background: white;
+            padding-top: 10px;
+            padding-bottom:10px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 500px;
+            width: calc(100% - 40px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+
+        }
+
+        .bakery-name {
+            color: #232f3e;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .bakery-price {
+            color: #B12704;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart-btn {
+            background: #ffd814;
+            color: #0F1111;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background 0.2s;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #f7ca00;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #232f3e;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .nav-text {
+            font-size: 12px;
+        }
+
+        /* Nutrition Information */
+        .nutrition-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .nutrition-title {
+            color: #232f3e;
+            font-size: 18px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff9900;
+            padding-bottom: 5px;
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .nutrition-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Quantity Selector */
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .quantity-btn {
+            background: #f0f0f0;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .quantity-display {
+            font-size: 18px;
+            font-weight: bold;
+            min-width: 30px;
+        }
+
+        /* Customer Reviews - FIXED */
+        .reviews-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 500px;
+            width: calc(100% - 40px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+
+        .review-item {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .review-author {
+            font-weight: bold;
+            color: #232f3e;
+        }
+
+        .review-rating {
+            color: #ff9900;
+            margin: 5px 0;
+        }
+
+        /* Favorite Button */
+        .favorite-btn {
+            background: transparent;
+            border: 2px solid #ff4444;
+            color: #ff4444;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.3s;
+        }
+
+        .favorite-btn:hover {
+            background: #ff4444;
+            color: white;
+        }
+
+        .favorite-btn.active {
+            background: #ff4444;
+            color: white;
+        }
+
+        /* Delivery Info */
+        .delivery-info {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .delivery-icon {
+            color: #4CAF50;
+            margin-right: 10px;
+        }
+
+        /* Share Options */
+        .share-options {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .share-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .share-btn:hover {
+            background: #e0e0e0;
+        }
+
+        /* Related Products Slider - FIXED */
+        .related-products {
+            margin: 40px auto;
+            max-width: 500px;
+            width: calc(100% - 40px);
+            box-sizing: border-box;
+        }
+
+        .section-title {
+            color: #232f3e;
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .products-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: grab;
+        }
+
+        .products-slider:active {
+            cursor: grabbing;
+        }
+
+        .slider-track {
+            display: flex;
+            gap: 15px;
+            transition: transform 0.3s ease-out;
+            padding: 0 15px;
+            user-select: none;
+        }
+
+        .product-card {
+            flex: 0 0 auto;
+            width: 140px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-color: #ff9900;
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            pointer-events: none;
+        }
+
+        .product-name {
+            font-weight: bold;
+            color: #232f3e;
+            font-size: 14px;
+            margin-bottom: 5px;
+            pointer-events: none;
+        }
+
+        .product-price {
+            color: #B12704;
+            font-weight: bold;
+            font-size: 16px;
+            pointer-events: none;
+        }
+
+        /* Auto-scroll animation */
+        .auto-scroll {
+            animation: autoScroll 25s linear infinite;
+        }
+
+        .auto-scroll-paused {
+            animation-play-state: paused;
+        }
+
+        @keyframes autoScroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-140px * 8 - 15px * 7));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-container {
+                height: 50vh;
+            }
+            
+            .nutrition-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-card {
+                width: 120px;
+            }
+
+            @keyframes autoScroll {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(calc(-120px * 8 - 15px * 7));
+                }
+            }
+        }
+        .aaaa{
+            display: flex;
+        }
+        .bakery-rate-js{
+            display: flex;
+            margin-top:7px;
+            gap:10px;
+        }
+        a{
+       text-decoration:none;
+   }
+   .account-home-js:hover,
+   .account-home-js:active,
+    .account-home-js:focus {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    -webkit-tap-highlight-color:  transparent !important;
+}
+        .hello {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      padding: 10px 0;
+      z-index: 1000;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+
+    .account-home-js {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      color: white;
+    }
+    .nav-icon {
+      width: 24px;
+      height: 24px;
+      margin-bottom: -4px;
+      
+    }
+
+    .nav-text {
+      font-size: 12px;
+      color: violet;
+    }
+
+.logo-image {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <button class="back-btn" onclick="goBack()">⬅ Back</button>
+        <h2 style="margin: 0; color: tomato;">ግዖን ግብያ💫</h2>
+        <div style="width: 80px;"></div>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="gallery-container">
+        <div class="gallery" id="imageGallery">
+            <!-- Images will be inserted here by JavaScript -->
+        </div>
+        
+        <!-- Image Indicators -->
+        <div class="image-indicators" id="imageIndicators">
+            <!-- Indicators will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-container">
+        <!-- Bakery Information -->
+        <div id="bakery-display">
+            <!-- Bakery details will be inserted here by JavaScript -->
+        </div>
+
+        <!-- Related Products Slider -->
+        <div class="related-products">
+            <h3 class="section-title">You May Also Like</h3>
+            <div class="products-slider" id="productsSliderContainer">
+                <div class="slider-track auto-scroll" id="productsSlider">
+                    <!-- Related products will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Sections -->
+        <div id="additional-sections">
+            <!-- Additional sections will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    
+
+    <script>
+        // UNIQUE image collections for EACH bakery item
+        const bakeryImages = {
+            'Ice Cream Cake': [
+                'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Soft Serve': [
+                'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Chocolate Cake': [
+                'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Cheesecake': [
+                'https://images.unsplash.com/photo-1524351199678-941a58a3df50?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1524351199678-941a58a3df50?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1524351199678-941a58a3df50?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Croissant': [
+                'https://images.unsplash.com/photo-1555507036-ab794f27d2e5?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1552590635-27c2c2128abf?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1552590635-27c2c2128abf?w=400&auto=format&fit=crop&crop=center'
+            ],
+            'Baguette': [
+                'https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Blueberry Muffin': [
+                'https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Cinnamon Roll': [
+                'https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Donut': [
+                'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Bread Loaf': [
+                'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Apple Pie': [
+                'https://images.unsplash.com/photo-1535920527002-b35e96722206?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1535920527002-b35e96722206?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1535920527002-b35e96722206?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Macarons': [
+                'https://images.unsplash.com/photo-1558326567-98ae2405596b?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1558326567-98ae2405596b?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1558326567-98ae2405596b?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Cookies': [
+                'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Eclair': [
+                'https://images.unsplash.com/photo-1558319024-50d6580590e6?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1558319024-50d6580590e6?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1558319024-50d6580590e6?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Danish Pastry': [
+                'https://images.unsplash.com/photo-1559620192-032c4bc4674e?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1559620192-032c4bc4674e?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1559620192-032c4bc4674e?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Sourdough Bread': [
+                'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Bagel': [
+                'https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'default': [
+                'https://images.unsplash.com/photo-1555507036-ab794f27d2e5?w=400&auto=format&fit=crop'
+            ]
+        };
+
+        // Related products data
+        const relatedProducts = [
+            { name: 'Ice Cream Cake', price: 12, image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=200&auto=format&fit=crop' },
+            { name: 'Soft Serve', price: 8, image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=200&auto=format&fit=crop' },
+            { name: 'Chocolate Cake', price: 25, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=200&auto=format&fit=crop' },
+            { name: 'Cheesecake', price: 18, image: 'https://images.unsplash.com/photo-1524351199678-941a58a3df50?w=200&auto=format&fit=crop' }
+        ];
+
+        // Nutrition data
+        const nutritionData = {
+            'Ice Cream Cake': { calories: 320, protein: '4.5g', carbs: '45g', fiber: '1g', sugar: '35g' },
+            'Soft Serve': { calories: 207, protein: '4.1g', carbs: '23g', fiber: '0g', sugar: '21g' },
+            'Chocolate Cake': { calories: 371, protein: '5g', carbs: '53g', fiber: '2g', sugar: '38g' },
+            'Cheesecake': { calories: 321, protein: '5.5g', carbs: '25g', fiber: '0.5g', sugar: '22g' },
+            'Croissant': { calories: 272, protein: '5.5g', carbs: '31g', fiber: '1.7g', sugar: '5g' },
+            'Baguette': { calories: 289, protein: '11g', carbs: '56g', fiber: '2.3g', sugar: '3g' },
+            'Blueberry Muffin': { calories: 385, protein: '4.5g', carbs: '53g', fiber: '1g', sugar: '31g' },
+            'default': { calories: 300, protein: '5g', carbs: '45g', fiber: '2g', sugar: '15g' }
+        };
+
+        const reviewsData = {
+            'Ice Cream Cake': [
+                { author: 'Sarah M.', rating: 5, comment: 'Perfect for summer parties! So creamy and delicious.', date: '2024-01-15' },
+                { author: 'Mike T.', rating: 4, comment: 'Great taste, my kids loved it', date: '2024-01-10' }
+            ],
+            'Soft Serve': [
+                { author: 'Emma L.', rating: 5, comment: 'Creamy and refreshing, perfect texture', date: '2024-01-12' }
+            ],
+            'Chocolate Cake': [
+                { author: 'David K.', rating: 5, comment: 'Rich and moist, perfect for celebrations', date: '2024-01-08' }
+            ],
+            'Cheesecake': [
+                { author: 'Lisa P.', rating: 5, comment: 'Creamy and perfectly sweet, best cheesecake ever!', date: '2024-01-05' }
+            ],
+            'default': [
+                { author: 'Customer', rating: 4, comment: 'Good quality product', date: '2024-01-01' }
+            ]
+        };
+
+        let currentImageIndex = 0;
+        let currentQuantity = 1;
+        let isFavorite = false;
+        let galleryAutoScrollInterval;
+
+        // Auto-scroll for main image gallery
+        function startGalleryAutoScroll() {
+            const gallery = document.getElementById('imageGallery');
+            const totalImages = gallery.children.length;
+            
+            if (totalImages <= 1) return;
+            
+            clearInterval(galleryAutoScrollInterval);
+            
+            galleryAutoScrollInterval = setInterval(() => {
+                currentImageIndex = (currentImageIndex + 1) % totalImages;
+                scrollToImage(currentImageIndex);
+            }, 4000);
+        }
+
+        function stopGalleryAutoScroll() {
+            clearInterval(galleryAutoScrollInterval);
+        }
+
+        // NEW: Improved snap to image function
+        function snapToImage() {
+            const gallery = document.getElementById('imageGallery');
+            const scrollLeft = gallery.scrollLeft;
+            const imageWidth = gallery.clientWidth;
+            const newIndex = Math.round(scrollLeft / imageWidth);
+            scrollToImage(newIndex);
+        }
+
+        // IMPROVED: Touch scrolling function
+        function setupGalleryPullToScroll() {
+            const gallery = document.getElementById('imageGallery');
+            let startX = 0;
+            let scrollLeft = 0;
+            let isDragging = false;
+
+            // Mouse events
+            gallery.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.pageX - gallery.offsetLeft;
+                scrollLeft = gallery.scrollLeft;
+                gallery.style.cursor = 'grabbing';
+                gallery.style.scrollBehavior = 'auto';
+                stopGalleryAutoScroll();
+            });
+
+            gallery.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                
+                const x = e.pageX - gallery.offsetLeft;
+                const walk = (x - startX) * 2;
+                gallery.scrollLeft = scrollLeft - walk;
+            });
+
+            gallery.addEventListener('mouseup', () => {
+                isDragging = false;
+                gallery.style.cursor = 'grab';
+                gallery.style.scrollBehavior = 'smooth';
+                
+                snapToImage();
+                setTimeout(startGalleryAutoScroll, 5000);
+            });
+
+            gallery.addEventListener('mouseleave', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    gallery.style.cursor = 'grab';
+                    gallery.style.scrollBehavior = 'smooth';
+                    snapToImage();
+                    setTimeout(startGalleryAutoScroll, 5000);
+                }
+            });
+
+            // Touch events - FIXED
+            gallery.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].clientX;
+                scrollLeft = gallery.scrollLeft;
+                gallery.style.scrollBehavior = 'auto';
+                stopGalleryAutoScroll();
+                e.preventDefault();
+            }, { passive: false });
+
+            gallery.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                
+                const x = e.touches[0].clientX;
+                const walk = (x - startX) * 2;
+                gallery.scrollLeft = scrollLeft - walk;
+                e.preventDefault();
+            }, { passive: false });
+
+            gallery.addEventListener('touchend', () => {
+                if (!isDragging) return;
+                
+                isDragging = false;
+                gallery.style.scrollBehavior = 'smooth';
+                snapToImage();
+                setTimeout(startGalleryAutoScroll, 5000);
+            });
+
+            // Auto-scroll
+            startGalleryAutoScroll();
+        }
+
+        // Display image gallery
+        function displayImageGallery(images, bakeryName) {
+            const galleryElement = document.getElementById('imageGallery');
+            const indicatorsElement = document.getElementById('imageIndicators');
+            
+            galleryElement.innerHTML = '';
+            indicatorsElement.innerHTML = '';
+            
+            images.forEach((image, index) => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.innerHTML = `
+                    <img src="${image}" alt="${bakeryName} ${index + 1}" class="gallery-image"
+                         draggable="false">
+                `;
+                galleryElement.appendChild(galleryItem);
+                
+                const indicator = document.createElement('div');
+                indicator.className = `indicator ${index === 0 ? 'active' : ''}`;
+                indicator.onclick = () => {
+                    stopGalleryAutoScroll();
+                    scrollToImage(index);
+                    setTimeout(startGalleryAutoScroll, 5000);
+                };
+                indicatorsElement.appendChild(indicator);
+            });
+            
+            currentImageIndex = 0;
+            setupGalleryPullToScroll();
+        }
+
+        function scrollToImage(index) {
+            const gallery = document.getElementById('imageGallery');
+            const scrollAmount = gallery.clientWidth * index;
+            
+            gallery.scrollTo({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+            
+            currentImageIndex = index;
+            updateActiveIndicator();
+        }
+
+        function updateActiveIndicator() {
+            const gallery = document.getElementById('imageGallery');
+            const indicators = document.querySelectorAll('.indicator');
+            const scrollLeft = gallery.scrollLeft;
+            const imageWidth = gallery.clientWidth;
+            const newIndex = Math.round(scrollLeft / imageWidth);
+            
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === newIndex);
+            });
+            
+            currentImageIndex = newIndex;
+        }
+
+        // Show bakery details
+        function showBakeryDetails() {
+            // FIX: Look for 'chosenFruit' in localStorage (Amazon1.html uses this key)
+            const savedBakery = localStorage.getItem('chosenFruit');
+            
+            if (savedBakery) {
+                const bakery = JSON.parse(savedBakery);
+                
+                checkIfFavorite(bakery.name);
+                
+                const images = bakeryImages[bakery.name] || bakeryImages.default;
+                
+                displayImageGallery(images, bakery.name);             
+                displayRelatedProducts(bakery.name);
+                
+                document.getElementById('bakery-display').innerHTML = `
+                    <div class="bakery-info">
+                        <h1 class="bakery-name">${bakery.name}</h1>
+                        
+                        <p style="color: #666; margin-bottom: 20px; font-size:15px; color: black;">Freshly baked ${bakery.name.toLowerCase()} made with high-quality ingredients for the perfect taste.
+                        </p>
+                        
+                        <div class="aaaa">
+                            <div class="review-rating">
+                                ${'★'.repeat(Math.floor(bakery.rating || 4.5))}
+                                ${'☆'.repeat(Math.floor(6-(bakery.rating || 4.5)))}
+                            </div>
+                            <div class="bakery-rate-js">${bakery.rating || 4.5}</div>
+                            <div class="bakery-rate-js">/${bakery.sold || 800} sold</div>
+                        </div>
+                        
+                        <div class="bakery-price">$${bakery.price}</div>
+                        
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="updateQuantity(-1)">-</button>
+                            <span class="quantity-display" id="quantityDisplay">${currentQuantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity(1)">+</button>
+                        </div>
+                        
+                        <button class="add-to-cart-btn" onclick="addToCart('${bakery.name}', ${bakery.price})">
+                            🛒 Add to Cart - $${(bakery.price * currentQuantity).toFixed(2)}
+                        </button>
+                    </div>
+                `;
+
+                updateAdditionalSections(bakery);
+                document.title = `${bakery.name} - Gihon Shopping`;
+            } else {
+                document.getElementById('bakery-display').innerHTML = `
+                    <div style="color: red; padding: 40px;">
+                        <h2>No bakery item selected!</h2>
+                        <p>Please go back and click on a bakery item first.</p>
+                        <button class="back-btn" onclick="goBack()">Go Back</button>
+                    </div>
+                `;
+            }
+        }
+
+        function updateAdditionalSections(bakery) {
+            const nutrition = nutritionData[bakery.name] || nutritionData.default;
+            const reviews = reviewsData[bakery.name] || reviewsData.default;
+            
+            document.getElementById('additional-sections').innerHTML = `
+                <div class="bakery-info">
+                    <div class="nutrition-info">
+                        <h3 class="nutrition-title">Nutrition Facts (per 100g)</h3>
+                        <div class="nutrition-grid">
+                            <div class="nutrition-item">
+                                <span>Calories:</span>
+                                <span>${nutrition.calories}</span>
+                            </div>
+                            <div class="nutrition-item">
+                                <span>Protein:</span>
+                                <span>${nutrition.protein}</span>
+                            </div>
+                            <div class="nutrition-item">
+                                <span>Carbohydrates:</span>
+                                <span>${nutrition.carbs}</span>
+                            </div>
+                            <div class="nutrition-item">
+                                <span>Fiber:</span>
+                                <span>${nutrition.fiber}</span>
+                            </div>
+                            <div class="nutrition-item">
+                                <span>Sugar:</span>
+                                <span>${nutrition.sugar}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="delivery-info">
+                        <span class="delivery-icon">🚚</span>
+                        <strong>Free Delivery</strong> - Get it by tomorrow! Order within 3 hours.
+                    </div>
+
+                    <div class="share-options">
+                        <button class="share-btn" onclick="shareProduct('${bakery.name}')">📤 Share</button>
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" id="favoriteBtn" onclick="toggleFavorite()">
+                            ${isFavorite ? '❤️ Saved' : '🤍 Save'}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="reviews-section">
+                    <h3 style="color: #232f3e; margin-bottom: 15px;">Customer Reviews</h3>
+                    ${reviews.map(review => `
+                        <div class="review-item">
+                            <div class="review-author">${review.author}</div>
+                            <div class="review-rating">${'★'.repeat(review.rating)}${'☆'.repeat(5-review.rating)}</div>
+                            <div>${review.comment}</div>
+                            <small style="color: #666;">${review.date}</small>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function updateQuantity(change) {
+            currentQuantity = Math.max(1, currentQuantity + change);
+            document.getElementById('quantityDisplay').textContent = currentQuantity;
+            updateAddToCartButton();
+        }
+
+        function updateAddToCartButton() {
+            const bakery = JSON.parse(localStorage.getItem('chosenFruit'));
+            const totalPrice = (bakery.price * currentQuantity).toFixed(2);
+            document.querySelector('.add-to-cart-btn').innerHTML = 
+                `🛒 Add to Cart - $${totalPrice}`;
+        }
+
+        function toggleFavorite() {
+            isFavorite = !isFavorite;
+            const favoriteBtn = document.getElementById('favoriteBtn');
+            favoriteBtn.classList.toggle('active', isFavorite);
+            favoriteBtn.innerHTML = isFavorite ? '❤️ Saved' : '🤍 Save';
+            
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            const bakery = JSON.parse(localStorage.getItem('chosenFruit'));
+            
+            if (isFavorite) {
+                if (!favorites.find(f => f.name === bakery.name)) {
+                    favorites.push(bakery);
+                }
+            } else {
+                favorites = favorites.filter(f => f.name !== bakery.name);
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        function shareProduct(productName) {
+            if (navigator.share) {
+                navigator.share({
+                    title: productName,
+                    text: `Check out this ${productName} on Gihon Shopping!`,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Product link copied to clipboard!');
+            }
+        }
+
+        function checkIfFavorite(bakeryName) {
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            isFavorite = favorites.some(f => f.name === bakeryName);
+        }
+
+        function addToCart(productName, price) {
+            let cart = JSON.parse(localStorage.getItem('cartitem')) || [];
+            let existingItem = cart.find(item => item.itemsName === productName);
+
+            if (existingItem) {
+                existingItem.quantity += currentQuantity;
+            } else {
+                cart.push({ 
+                    itemsName: productName, 
+                    quantity: currentQuantity,
+                    price: price,
+                    image: bakeryImages[productName] ? bakeryImages[productName][0] : ''
+                });
+            }
+
+            localStorage.setItem('cartitem', JSON.stringify(cart));
+            alert(`✅ ${currentQuantity} ${productName}${currentQuantity > 1 ? 's' : ''} added to cart!`);
+            currentQuantity = 1;
+            document.getElementById('quantityDisplay').textContent = currentQuantity;
+            updateAddToCartButton();
+        }
+
+        // Display related products
+        function displayRelatedProducts(currentBakeryName) {
+            const slider = document.getElementById('productsSlider');
+            const filteredProducts = relatedProducts.filter(product => product.name !== currentBakeryName);
+            
+            // Duplicate products for seamless loop
+            const productsToShow = [...filteredProducts, ...filteredProducts];
+            
+            slider.innerHTML = productsToShow.map(product => `
+                <div class="product-card" onclick="selectRelatedProduct('${product.name}', ${product.price}, '${product.image}')">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-price">$${product.price}</div>
+                </div>
+            `).join('');
+        }
+
+        // Handle related product selection
+        function selectRelatedProduct(name, price, image) {
+            const bakery = {
+                name: name,
+                price: price,
+                image: image,
+                rating: 4.5,
+                sold: 800
+            };
+            
+            localStorage.setItem('chosenFruit', JSON.stringify(bakery));
+            showBakeryDetails();
+            window.scrollTo(0, 0);
+        }
+
+        function goBack() {
+            window.location.href = 'Amazon1.html';
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', showBakeryDetails);
+    </script>
+</body>
+</html>

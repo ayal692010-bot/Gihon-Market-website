@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gihon Shopping - Electronics</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    body{
+      margin: 0;
+      font-family: Arial, sans-serif;
+      padding-top: 150px; /* Space for fixed headers */
+      background-color: #f5f5f5;
+    }
+
+    /* Section 1: Menu and Cart */
+    .section-1 {
+      position: fixe;
+      margin-top:-150px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      background-color: green;
+      color: white;
+      z-index: 1000;
+      box-sizing: border-box;
+    }
+
+    .menu-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .openbtn {
+      font-size: 16px;
+      cursor: pointer;
+      background-color: transparent;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      margin-right: 15px;
+      border-radius: 3px;
+    }
+
+    .openbtn:hover {
+      background-color: #485769;
+    }
+
+    .cart-section {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: white;
+    }
+
+    .cart-section a {
+      text-decoration: none;
+      color: red;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin-top:-20px;
+    }
+
+    .cartitem {
+      background-color: #ff9900;
+      color: green;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      position: absolute;
+      top: -5px;
+      right: 10px;
+      margin-top:20px
+      ;
+    }
+
+    .cart-icon {
+      font-size: 24px;
+      margin-top:30px
+    }
+
+    .cart-label {
+      display: flex;
+      font-size: 12px;
+      margin-top: px;
+      color: white;
+      font-size:15px;
+      font-weight:bold;
+    }
+
+    /* Section 2: Search Bar */
+    .section-2 {
+      position: fixe;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      background-color: green;
+      padding: 8px 15px;
+      z-index: 999;
+      box-sizing: border-box;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 4px;
+      padding: 5px 10px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .input-js {
+      border: none;
+      outline: none;
+      padding: 8px;
+      flex: 1;
+      width: 100%;
+    }
+
+    #search-glass-js {
+    
+      
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      margin-left: 10px;
+    }
+
+ 
+
+    /* Section 4: Products Grid */
+    .section-4 {
+      padding: 15px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .dani {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .ayal {
+      border: 1px soli #ddd;
+      border-radius: 8px;
+      padding-left: 1px;
+      text-align: left;
+      background: #ff;
+      
+      transition: transform 0.2s, box-shadow
+       0.2s;
+      position: relative;
+      font-size:20px;
+      padding-bottom: -15px;
+      gap:100px;
+      
+      
+      
+      
+    }
+
+    ayal:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 400px; /* ⬆️ CHANGED from 120px to 200px */
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-size:40px;
+      padding-top:-20px;
+    }
+
+    .product-title {
+      font-size: 14px;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      height: 36px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      color: #0F1111;
+    }
+    
+
+    .product-price {
+      color: #B12704;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .product-original-price {
+      color: #565959;
+      text-decoration: line-through;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .product-savings {
+      color: #B12704;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+
+    .product-rating-stars {
+      color: #FFA41C;
+      margin-right: 5px;
+    }
+
+    .product-sold {
+      color: #565959;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .product-badge {
+      background-color: tomato;
+      color: white;
+      
+      font-size: 12px;
+      margin-bottom: 5px;
+      padding-bottom:-20px;
+      border-radius: 3px;
+      
+    }
+
+    .product-shipping {
+      color: #565959;
+      font-size: 12px;
+      margin-bottom: 5px;
+      padding-bottom:-20px;
+      
+      
+    }
+
+ 
+
+    .cart-quantity {
+      color: #666;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      
+      text-align: center;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #fff;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 80px;
+      z-index: 2000;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    }
+
+    .sidebar a {
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 16px;
+      color: #0F1111;
+      display: block;
+      transition: 0.2s;
+      border-bottom: 1px solid #eee;
+    }
+
+    .sidebar a:hover {
+      background: #f5f5f5;
+    }
+
+    .sidebar .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: #0F1111;
+      cursor: pointer;
+    }
+
+ 
+
+    .no-items-found {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      font-size: 18px;
+      color: #555;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .dani {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 10px;
+      }
+      
+      .section-1, .section-2, .section-3 {
+        padding: 8px 10px;
+      }
+      
+      .itemcatogery-js {
+        gap: 10px;
+      }
+      
+      .product-image {
+        height: 180px; /* ⬆️ CHANGED from 200px to 180px */
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .dani {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+      
+      .cart-section {
+        margin-left: 10px;
+      }
+      
+      .product-image {
+        height: 150px; /* ⬆️ CHANGED from 80px to 150px */
+      }
+    }
+    .Gihon{
+       display: flex;
+      align-items: center;
+      gap: 5px;
+      color: tomato;
+      font-weight :bold;
+   }
+   a{
+       text-decoration:none;
+   }
+    .image-move-js:hover,
+  .image-move-js:active,
+  .image-move-js:focus {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    -webkit-tap-highlight-color:  transparent !important;
+}
+
+   .account-home-js:hover,
+  .account-home-js:active,
+  .account-home-js:focus {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    -webkit-tap-highlight-color:  transparent !important;
+}
+.aaaa{
+    display:flex;
+    gap:10px;
+}
+   .product-image {
+    height: 100px; /* Desktop */
+}
+
+@media (max-width: 768px) {
+    .product-image {
+        height: 200px; /* Tablet */
+    }
+}
+
+@media (max-width: 480px) {
+    .product-image {
+        height: 200px; /* Mobile */
+    }
+}
+.nav-icon {
+      width: 24px;
+      height: 24px;
+      margin-bottom: -4px;
+      
+    }
+
+    .nav-text {
+      font-size: 12px;
+      color: violet;
+    }
+
+.logo-image {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+    .content-container {
+  background-color: white;
+  display: flex;
+      justify-content: space-around;
+      align-items: center;  /* White container */
+}
+
+.content-container .item {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: green;  /* Black text for normal state */
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.3s;
+  
+}
+
+.content-container .item i {
+  font-size: 20px;
+  margin-bottom: 5px;
+  transition: color 0.3s;
+  color: green;  /* All icons black when inactive */
+}
+
+/* Active state - only the clicked item turns red */
+.content-container .item.active i,
+.content-container .item.active span {
+  color: #ff4747 !important;  /* Only active item turns red */
+}
+
+/* Optional: Add a small red dot under active item */
+.content-container .item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  width: 4px;
+  height: 4px;
+  background-color: #ff4747;
+  border-radius: 50%;
+}
+       .hello {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      padding: 10px 0;
+      z-index: 1000;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+
+    .content-container.horizontal {
+      flex-direction: row;
+    }
+    .content-container .item span {
+      font-size: 12px;
+    }
+    .content-container .item:hover,
+  .content-container .item:active,
+  .content-container .item:focus {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    -webkit-tap-highlight-color:  transparent !important;
+  </style>
+</head>
+<body>
+  <!-- Section 1: Menu and Cart -->
+  <div class="section-1">
+    <div class="menu-container">
+      <button class="openbtn" onclick="openSidebar()">☰ Menu</button>
+          <div class="Gihon">
+          <div style ="font-size:30px;">🛍️🛍️</div>
+          ግዖን ግብያ💫
+          
+       </div>
+    </div>
+    <div class="cart-section">
+      <a href="orderitem.html">
+        <span class="cart-icon">🛒</span>
+        <span class="cartitem">0</span>
+        <div class="cart-label">Cart</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Section 2: Search Bar -->
+  <div class="section-2">
+    <div class="search-container">
+      <input class="input-js" placeholder="Search Electronics products...">
+      <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" alt="Search" id="search-glass-js">
+    </div>
+  </div>
+
+ 
+  <!-- Sidebar Menu -->
+  <div id="mySidebar" class="sidebar">
+    <button class="close-btn" onclick="closeSidebar()">❌</button>
+    <a href="Amazon1.html">All</a>
+   <a href="Electronics.html">Electronics</a>
+    <a href="fruit-vegetable.html">Fruit & Vegetables</a>
+    <a href="bakery.html">Bakery</a>
+  </div>
+
+  <!-- Section 4: Products -->
+  <div class="section-4">
+    <div class="dani"></div>
+  </div>
+
+  <!-- Bottom Navigation -->
+    
+  <div class="hello">
+    <div id="contentContainer" class="content-container horizontal">
+      <div class="item" id="home">
+        <a href="Amazon1.html"> <i class="fas fa-home"></i> </a>
+        <span>Home</span>
+      </div>
+      
+      
+<div class="item">
+  <i class="fas fa-archive"></i>
+  <span>Storage</span>
+</div>
+
+
+      <div class="item">
+        <i class="fas fa-image"></i>
+        <span>Gallery</span>
+      </div>
+      
+      <div class="item">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Product list with real electronics images
+     const products= [
+            { 
+                image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=300', 
+                name: 'Smart TV', 
+                price: 299
+            },
+            { 
+                image: 'https://images.unsplash.com/photo-1596727147705-61a532a659bd?w=300', 
+                name: 'Old TV', 
+                price: 99
+            },
+            { 
+                image: 'https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=300', 
+                name: 'Digital Camera', 
+                price: 199
+            },
+            { 
+                image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=300', 
+                name: 'Alarm Clock', 
+                price: 25
+            },
+            { 
+                image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300', 
+                name: 'Smart Phone', 
+                price: 599
+            },
+            { 
+                image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300', 
+                name: 'Laptop Computer', 
+                price: 899
+            },
+            { 
+                image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300', 
+                name: 'LED Bulb', 
+                price: 8
+            },
+            { 
+                image: 'https://images.unsplash.com/photo-1599669454699-248893623440?w=300', 
+                name: 'Microphone', 
+                price: 79
+            },
+            { 
+                image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300', 
+                name: 'Smart Watch', 
+                price: 199
+            },
+            { 
+                image: 'https://images.unsplash.com/photo-1586816879360-004f5b0cac9a?w=300', 
+                name: 'Satellite Dish', 
+                price: 149
+            },
+            { 
+                image: 'https://images.unsplash.com/photo-1589003077984-894e133dabab?w=300', 
+                name: 'Vintage Radio', 
+                price: 45
+            },
+            { 
+                image: 'https://images.unsplash.com/photo-1587145820266-a5951ee6f620?w=300', 
+                name: 'Calculator', 
+                price: 15
+            }
+        ];
+
+
+// Add click event listeners to navigation items
+      document.querySelectorAll('.content-container .item').forEach(item => {
+        item.addEventListener('click', function() {
+          // Remove active class from all items
+          document.querySelectorAll('.content-container .item').forEach(i => {
+            i.classList.remove('active');
+          });
+          // Add active class to clicked item
+          this.classList.add('active');
+          
+        });
+      });
+   
+    // Function to handle product selection - UPDATED to go to Electronics-detail.html
+    function selectProduct(productName, productPrice, productImage) {
+        const selectedProduct = {
+            name: productName,
+            price: productPrice,
+            image: productImage
+        };
+        
+        // Store the selected product in localStorage
+        localStorage.setItem('chosenFruit', JSON.stringify(selectedProduct));
+        
+        // Navigate to the ELECTRONICS details page
+        window.location.href = 'Electronics-detail.html';
+    }
+    
+    function openSidebar() {
+      document.getElementById("mySidebar").style.width = "250px";
+    }
+
+    function closeSidebar() {
+      document.getElementById("mySidebar").style.width = "0";
+    }
+    
+    // Load cart from localStorage
+    let cartitem = JSON.parse(localStorage.getItem('cartitem')) || [];
+
+    // ✅ Show cart total immediately when page loads
+    let initialTotal = cartitem.reduce((sum, item) => sum + item.quantity, 0);
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelector('.cartitem').innerHTML = initialTotal;
+    });
+
+    function saveTostorage() {
+      localStorage.setItem('cartitem', JSON.stringify(cartitem));
+    }
+
+    function renderproducts(list){
+      let productHTML = "";
+      if(list.length === 0){
+        productHTML += `<div class="no-items-found"> ❌ No results found</div>`;
+      } else {
+      list.forEach((items)=>{
+        // Find current quantity in cart for this product
+          let cartQuantity = 0;
+          let existingItem = cartitem.find(p => p.itemsName === items.name);
+          if (existingItem) {
+            cartQuantity = existingItem.quantity;
+          }
+        
+          productHTML += `
+            <div class="ayal">
+                <a href="javascript:void(0)" onclick="selectProduct('${items.name}', ${items.price}, '${items.image}')">
+              <img src="${items.image}" alt="${items.name}" class="product-image">
+              <div style="font-weight:bold; margin-bottom:5px;">${items.name}</div>
+              </a>
+              <div style="color:#B12704; font-weight:bold; margin-bottom:10px;">$${items.price}</div>
+              <div style="color:#666; margin-bottom:10px; font-size:14px;">In cart: ${cartQuantity}</div>
+             
+            </div>
+          `;
+        });
+      }
+      document.querySelector('.dani').innerHTML = productHTML;
+
+      // ✅ Add to cart logic (fixed)
+      document.querySelectorAll('.add-to-cart-js').forEach((button) => {
+        button.addEventListener('click', () => {
+          const itemsName = button.dataset.itemsName;
+
+          let existingItem = cartitem.find(p => p.itemsName === itemsName);
+
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            cartitem.push({ itemsName: itemsName, quantity: 1 });
+          }
+
+          saveTostorage();
+
+          // Update cart quantity display
+          let Totalquantity = cartitem.reduce((sum, item) => sum + item.quantity, 0);
+          document.querySelector('.cartitem').innerHTML = Totalquantity;
+          
+          // Re-render to update cart quantities
+          renderproducts(products);
+        });
+      });
+
+      // ✅ Remove from cart logic (fixed)
+      document.querySelectorAll('.remove-from-cart-js').forEach((button) => {
+        button.addEventListener('click', () => {
+          const itemsName = button.dataset.itemsName;
+
+          let existingItem = cartitem.find(p => p.itemsName === itemsName);
+
+          if(existingItem){
+            existingItem.quantity -= 1;
+
+            // Remove item if quantity is 0
+            if(existingItem.quantity <= 0){
+              cartitem = cartitem.filter(p => p.itemsName !== itemsName);
+            }
+          }
+
+          saveTostorage();
+
+          // Update total quantity
+          let Totalquantity = cartitem.reduce((sum, item) => sum + item.quantity, 0);
+          document.querySelector('.cartitem').innerHTML = Totalquantity;
+
+          renderproducts(products);
+        });
+      });
+    }
+
+    // Initial render
+    renderproducts(products);
+
+    // Search functionality
+    const searchInput = document.querySelector('.input-js');
+    const searchButton = document.getElementById('search-glass-js');
+
+    function doSearch() {
+      const query = searchInput.value.toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+      renderproducts(filtered);
+    }
+
+    searchInput.addEventListener('input', doSearch);
+    searchButton.addEventListener('click', doSearch);
+  </script>
+</body>
+</html>

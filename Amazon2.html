@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Amazon</title>
+  <style>
+    body{
+      margin: 0;
+      font-family: Arial, sans-serif;
+      padding-top: 150px; /* Space for fixed headers */
+      background-color: #f5f5f5;
+    }
+
+    /* Section 1: Menu and Cart */
+    .section-1 {
+      position: fixe;
+      margin-top:-150px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      background-color: #232f3e;
+      color: white;
+      z-index: 1000;
+      box-sizing: border-box;
+    }
+
+    .menu-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .openbtn {
+      font-size: 16px;
+      cursor: pointer;
+      background-color: transparent;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      margin-right: 15px;
+      border-radius: 3px;
+    }
+
+    .openbtn:hover {
+      background-color: #485769;
+    }
+
+    .cart-section {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: white;
+    }
+
+    .cart-section a {
+      text-decoration: none;
+      color: red;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin-top:-20px;
+    }
+
+    .cartitem {
+      background-color: #ff9900;
+      color: green;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      position: absolute;
+      top: -5px;
+      right: 10px;
+      margin-top:20px
+      ;
+    }
+
+    .cart-icon {
+      font-size: 24px;
+      margin-top:30px
+    }
+
+    .cart-label {
+      display: flex;
+      font-size: 12px;
+      margin-top: px;
+      color: white;
+      font-size:15px;
+      font-weight:bold;
+    }
+
+    /* Section 2: Search Bar */
+    .section-2 {
+      position: fixe;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      background-color: #232f3e;
+      padding: 8px 15px;
+      z-index: 999;
+      box-sizing: border-box;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 4px;
+      padding: 5px 10px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .input-js {
+      border: none;
+      outline: none;
+      padding: 8px;
+      flex: 1;
+      width: 100%;
+    }
+
+    #search-glass-js {
+    
+      
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      margin-left: 10px;
+     
+    }
+
+    /* Section 3: Categories */
+    .section-3 {
+      position: fixe;
+      top: 110px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      background-color: #232f3e;
+      padding: 8px 15px;
+      z-index: 998;
+      box-sizing: border-box;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .itemcatogery-js {
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      flex: 1;
+    }
+
+    .itemcatogery-js a {
+      color: white;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 5px 10px;
+      border-radius: 3px;
+    }
+
+    .itemcatogery-js a:hover {
+      background-color: #485769;
+    }
+
+    /* NEW: Layout Toggle Button */
+    .layout-toggle-container {
+      display: flex;
+      align-items: center;
+      margin-left: 15px;
+    }
+
+    .layout-toggle-btn {
+      background-color: #ff9900;
+      color: #232f3e;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .layout-toggle-btn:hover {
+      background-color: #ffad33;
+    }
+
+    /* Section 4: Products Grid */
+    .section-4 {
+      padding: 15px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .dani {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      transition: all 0.4s ease;
+    }
+
+    /* NEW: Vertical layout styles */
+    .dani.vertical-layout {
+      grid-template-columns: 1fr;
+      max-width: 600px;
+    }
+
+    .dani.vertical-layout .ayal {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 15px;
+      height: auto;
+      padding: 15px;
+    }
+
+    .dani.vertical-layout .product-image {
+      width: 120px;
+      height: 120px;
+      flex-shrink: 0;
+    }
+
+    .dani.vertical-layout .product-title {
+      height: auto;
+      -webkit-line-clamp: 3;
+    }
+
+    .ayal {
+      border: 1px soli #ddd;
+      border-radius: 8px;
+      padding-left: 1px;
+      text-align: left;
+      background: #ff;
+      
+      transition: transform 0.2s, box-shadow
+       0.2s;
+      position: relative;
+      font-size:20px;
+      padding-bottom: -15px;
+      gap:100px;
+      
+      
+      
+      
+    }
+
+    ayal:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 400px; /* ⬆️ CHANGED from 120px to 200px */
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-size:40px;
+      padding-top:-20px;
+    }
+
+    .product-title {
+      font-size: 14px;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      height: 36px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      color: #0F1111;
+    }
+    
+
+    .product-price {
+      color: #B12704;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .product-original-price {
+      color: #565959;
+      text-decoration: line-through;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .product-savings {
+      color: #B12704;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+
+    .product-rating-stars {
+      color: #FFA41C;
+      margin-right: 5px;
+    }
+
+    .product-sold {
+      color: #565959;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .product-badge {
+      background-color: tomato;
+      color: white;
+      
+      font-size: 12px;
+      margin-bottom: 5px;
+      padding-bottom:-20px;
+      border-radius: 3px;
+      
+    }
+
+    .product-shipping {
+      color: #565959;
+      font-size: 12px;
+      margin-bottom: 5px;
+      padding-bottom:-20px;
+      
+      
+    }
+
+ .add-to-cart-js {
+      display: block;
+      margin: 10px auto 5px;
+      background-color: green;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      width: 80%;
+      transition: background-color 0.2s;
+    }
+
+    .add-to-cart-js:hover {
+      background-color: #f7ca00;
+    }
+
+    .remove-from-cart-js {
+      display: block;
+      margin: 5px auto;
+      background-color: #ff4d4d;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
+      width: 80%;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    .remove-from-cart-js:hover {
+      background-color: #ff3333;
+    }
+
+
+    .cart-quantity {
+      color: #666;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      
+      text-align: center;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #fff;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 80px;
+      z-index: 2000;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    }
+
+    .sidebar a {
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 16px;
+      color: #0F1111;
+      display: block;
+      transition: 0.2s;
+      border-bottom: 1px solid #eee;
+    }
+
+    .sidebar a:hover {
+      background: #f5f5f5;
+    }
+
+    .sidebar .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: #0F1111;
+      cursor: pointer;
+    }
+
+    /* Bottom Navigation */
+    .hello {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      padding: 10px 0;
+      z-index: 1000;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+
+    .account-home-js {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      color: white;
+    }
+
+    .account-home-js a {
+      text-decoration: none;
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .home-back-js {
+      background-color: #131a22;
+      display: flex;
+      justify-content: center;
+      padding: 8px;
+      color: white;
+      font-size: 14px;
+    }
+
+    .no-items-found {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      font-size: 18px;
+      color: #555;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .dani {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 10px;
+      }
+      
+      .section-1, .section-2, .section-3 {
+        padding: 8px 10px;
+      }
+      
+      .itemcatogery-js {
+        gap: 10px;
+      }
+      
+      .product-image {
+        height: 180px; /* ⬆️ CHANGED from 200px to 180px */
+      }
+
+      .layout-toggle-btn {
+        padding: 4px 8px;
+        font-size: 11px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .dani {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+      
+      .cart-section {
+        margin-left: 10px;
+      }
+      
+      .product-image {
+        height: 150px; /* ⬆️ CHANGED from 80px to 150px */
+      }
+
+      .layout-toggle-btn {
+        padding: 3px 6px;
+        font-size: 10px;
+      }
+    }
+    .Gihon{
+       display: flex;
+      align-items: center;
+      gap: 5px;
+      color: tomato;
+      font-weight :bold;
+   }
+   a{
+       text-decoration:none;
+   }
+    .image-move-js:hover,
+  .image-move-js:active,
+  .image-move-js:focus {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    -webkit-tap-highlight-color:  transparent !important;
+}
+.account-home-js:hover,
+  .account-home-js:active,
+  .account-home-js:focus {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    -webkit-tap-highlight-color:  transparent !important;
+}
+.aaaa{
+    display:flex;
+    gap:10px;
+}
+   .product-image {
+    height: 100px; /* Desktop */
+}
+
+@media (max-width: 768px) {
+    .product-image {
+        height: 200px; /* Tablet */
+    }
+}
+
+@media (max-width: 480px) {
+    .product-image {
+        height: 170px; /* Mobile */
+    }
+}
+.nav-icon {
+      width: 24px;
+      height: 24px;
+      margin-bottom: -4px;
+      
+    }
+
+    .nav-text {
+      font-size: 12px;
+      color: violet;
+    }
+
+.logo-image {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+     
+  </style>
+</head>
+<body>
+  <!-- Section 1: Menu and Cart -->
+  <div class="section-1">
+    <div class="menu-container">
+      <button class="openbtn" onclick="openSidebar()">☰ Menu</button>
+      <div class="Gihon">
+           <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=100&h=100&fit=crop&crop=center" alt="Logo" class="logo-image">
+          ግዖን ግብያ 💫
+          
+       </div>
+    </div>
+    <div class="cart-section">
+      <a href="orderitem.html">
+        <span class="cart-icon">🛒</span>
+        <span class="cartitem">0</span>
+        <div class="cart-label">Cart</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Section 2: Search Bar -->
+  <div class="section-2">
+    <div class="search-container">
+      <input class="input-js" placeholder="Search Gihon Products....">
+      <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" alt="Search" id="search-glass-js">
+    </div>
+  </div>
+
+  <!-- Section 3: Categories -->
+  <div class="section-3">
+    <div class="itemcatogery-js">
+      <a href="Amazon1.html">All</a>
+      <a href="Electronics.html">Electronics</a>
+      <a href="fruit-vegetable.html">Fruit & Vegetables</a>
+      <a href="bakery.html">Bakery</a>
+      <a href="Amazon2.html">Amazon2 </a>
+    </div>
+    <!-- NEW: Layout Toggle Button -->
+    <div class="layout-toggle-container">
+      <button class="layout-toggle-btn" id="layoutToggleBtn">
+        ↕ Vertical Layout
+      </button>
+    </div>
+  </div>
+
+  <!-- Sidebar Menu -->
+  <div id="mySidebar" class="sidebar">
+    <button class="close-btn" onclick="closeSidebar()">❌</button>
+    <a href="Amazon1.html">All</a>
+    <a href="Electronics.html">Electronics</a>
+    <a href="fruit-vegetable.html">Fruit & Vegetables</a>
+    <a href="bakery.html">Bakery</a>
+    
+  </div>
+
+  <!-- Section 4: Products -->
+  <div class="section-4">
+      
+    <div class="dani"></div>
+    <div class="yo"></div>
+    
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="hello">
+    <div class="account-home-js">
+      <a href="Amazon1.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Home" class="nav-icon">
+        <div class="nav-text">Home</div>
+      </a>
+      <a href="#">
+        <img src="https://cdn-icons-png.flaticon.com/512/126/126425.png" alt="Storage" class="nav-icon">
+        <div class="nav-text">Storage</div>
+      </a>
+      <a href="#">
+        <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Gift" class="nav-icon">
+        <div class="nav-text">Gift</div>
+      </a>
+      <a href="checkout.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/2331/2331965.png" alt="Checkout" class="nav-icon">
+        <div class="nav-text">Checkout</div>
+      </a>
+    </div>
+  </div>
+
+  <!--   <div class="home-back-js">🇪🇹 ግዖን ግብያ💫 🇪🇹</div>  -->
+  </div>
+  
+  <script>
+    // Product list with real images and additional data
+     const products = [
+      { 
+        image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300", 
+        name: "Shoes", 
+        price: 15,
+        originalPrice: 20.22,
+        savings: "$5.22",
+        rating: 4.6,
+        sold: 900,
+        badge: "Choice",
+        shipping: "Ship from US",
+        detailPage: "product-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300", 
+        name: "Women Shoes", 
+        price: 20,
+        originalPrice: 26.22,
+        savings: "$6.22",
+        rating: 4.6,
+        sold: 1200,
+        badg: "New shoppers save $3.23",
+        shipping: "Ship from Bishoftu",
+        detailPage: "product-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300", 
+        name: "Backpack", 
+        price: 15,
+        originalPrice: 20,
+        savings: "$5.00",
+        rating: 4.9,
+        sold: 10000,
+        badge: "Choice",
+        shipping: "Dollar Express",
+        detailPage: "product-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300", 
+        name: "Tshirt", 
+        price: 23,
+        originalPrice: 30,
+        savings: "$7.00",
+        rating: 4.9,
+        sold: 197,
+        badg: "New shoppers save $14.21",
+        shipping: "Ship from Bishoftu",
+        detailPage: "product-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=300", 
+        name: "Men shoes", 
+        price: 500,
+        originalPrice: 550,
+        savings: "$50.00",
+        rating: 4.8,
+        sold: 71,
+        badg: "$5 off on $45",
+        shipping: "Ship from Adama",
+        detailPage: "product-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1586351934193-6d78494cd762?w=300", 
+        name: "Socks", 
+        price: 15,
+        originalPrice: 20,
+        savings: "$5.00",
+        rating: 4.5,
+        sold: 2000,
+        badg: "Top selling on Gihon",
+        shipping: "",
+        detailPage: "product-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=300", 
+        name: "Apple", 
+        price: 2,
+        originalPrice: 3,
+        savings: "$1.00",
+        rating: 4.7,
+        sold: 500,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "fruit-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1547514701-42782101795e?w=300", 
+        name: "Orange", 
+        price: 3,
+        originalPrice: 4,
+        savings: "$1.00",
+        rating: 4.8,
+        sold: 800,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "fruit-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1445282768818-728615cc910a?w=300", 
+        name: "Carrot", 
+        price: 8,
+        originalPrice: 10,
+        savings: "$2.00",
+        rating: 2.6,
+        sold: 300,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "fruit-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300", 
+        name: "Cabbage", 
+        price: 3,
+        originalPrice: 5,
+        savings: "$2.00",
+        rating: 4.5,
+        sold: 450,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "fruit-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1596727147705-61a532a659bd?w=300", 
+        name: "Smart Tv", 
+        price: 2,
+        originalPrice: 3,
+        savings: "$1.00",
+        rating: 4.7,
+        sold: 1200,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "Electronics-detail.html"  // CHANGED: Capital E
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=300", 
+        name: "Old Tv", 
+        price: 3,
+        originalPrice: 5,
+        savings: "$2.00",
+        rating: 4.3,
+        sold: 200,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "Electronics-detail.html"  // CHANGED: Capital E
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=300", 
+        name: "Camera", 
+        price: 5,
+        originalPrice: 8,
+        savings: "$3.00",
+        rating: 4.9,
+        sold: 1500,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "Electronics-detail.html"  // CHANGED: Capital E
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=300", 
+        name: "Alarm Device", 
+        price: 7,
+        originalPrice: 10,
+        savings: "$3.00",
+        rating: 4.4,
+        sold: 600,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "Electronics-detail.html"  // CHANGED: Capital E
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=300", 
+        name: "Ice Cream Cake", 
+        price: 12,
+        originalPrice: 15,
+        savings: "$3.00",
+        rating: 4.8,
+        sold: 800,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "bakery-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300", 
+        name: "Soft Serve", 
+        price: 8,
+        originalPrice: 10,
+        savings: "$2.00",
+        rating: 4.6,
+        sold: 500,
+        badge: "Choice",
+        shipping: "ship from Adama",
+        detailPage: "bakery-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300", 
+        name: "Chocolate Cake", 
+        price: 25,
+        originalPrice: 30,
+        savings: "$5.00",
+        rating: 4.9,
+        sold: 1200,
+        badge: "Choice",
+        shipping: "",
+        detailPage: "bakery-detail.html"
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1524351199678-941a58a3df50?w=300", 
+        name: "Cheesecake", 
+        price: 18,
+        originalPrice: 22,
+        savings: "$4.00",
+        rating: 4.7,
+        sold: 900,
+        badge: "Choice",
+        shipping: "from ",
+        detailPage: "bakery-detail.html"
+      }
+    ];
+    
+    // NEW: Layout toggle functionality
+    const layoutToggleBtn = document.getElementById('layoutToggleBtn');
+    const productsContainer = document.querySelector('.dani');
+    
+    layoutToggleBtn.addEventListener('click', function() {
+      if (productsContainer.classList.contains('vertical-layout')) {
+        // Switch to horizontal layout
+        productsContainer.classList.remove('vertical-layout');
+        layoutToggleBtn.textContent = '↕ V';
+      } else {
+        // Switch to vertical layout
+        productsContainer.classList.add('vertical-layout');
+        layoutToggleBtn.textContent = '☰ H';
+      }
+    });
+    
+    // Function to save clicked product for detail pages
+    function selectProduct(productName, productPrice, productImage, productRating, productSold, detailPage) {
+        const selectedProduct = {
+            name: productName,
+            price: productPrice,
+            image: productImage,
+            rating: productRating,
+            sold: productSold
+        };
+        
+        // Store the selected product in localStorage
+        localStorage.setItem('chosenFruit', JSON.stringify(selectedProduct));
+        
+        // Navigate to the appropriate details page
+        window.location.href = detailPage;
+    }
+    
+    function openSidebar() {
+      document.getElementById("mySidebar").style.width = "250px";
+    }
+
+    function closeSidebar() {
+      document.getElementById("mySidebar").style.width = "0";
+    }
+    
+    // Load cart from localStorage
+    let cartitem = JSON.parse(localStorage.getItem('cartitem')) || [];
+
+    // Function to update cart display
+    function updateCartDisplay() {
+      let Totalquantity = cartitem.reduce((sum, item) => sum + item.quantity, 0);
+      document.querySelector('.cartitem').innerHTML = Totalquantity;
+    }
+
+    // ✅ Show cart total immediately when page loads
+    document.addEventListener("DOMContentLoaded", () => {
+      updateCartDisplay();
+    });
+
+    function saveTostorage() {
+      localStorage.setItem('cartitem', JSON.stringify(cartitem));
+      updateCartDisplay(); // Update cart display after saving
+    }
+
+    function renderproducts(list){
+      let productHTML = "";
+      if(list.length === 0){
+        productHTML += `<div class="no-items-found"> ❌ No Matching Products</div>`;
+      } else {
+        list.forEach((items)=>{
+          // Find current quantity in cart for this product
+          let cartQuantity = 0;
+          let existingItem = cartitem.find(p => p.itemsName === items.name);
+          if (existingItem) {
+            cartQuantity = existingItem.quantity;
+          }
+          
+          // Generate star rating
+          const stars ='★';
+          
+          const star = '★ '.repeat(Math.floor(items.rating)) + '☆'.repeat(5 - Math.floor(items.rating));
+          
+          // onclick event for product images to connect with appropriate detail pages
+          productHTML += `
+            <div class="ayal">
+                <a href="javascript:void(0)" onclick="selectProduct('${items.name}', ${items.price}, '${items.image}','${items.rating}','${items.sold}', '${items.detailPage}')" class="image-move-js">
+                 <div style="font-size:100px;"><img src="${items.image}" alt="${items.name}" class="product-image" ></div>
+                </a>
+                <div class="aaa">
+                ${items.badge ? `<span class="product-badge">${items.badge}</span>` : ''}
+                <div class="aaaa">
+                <div class="product-title">${items.name}</div>
+                
+                ${items.shipping ? `<div class="product-shipping">${items.shipping}</div>` : ''}
+                </div>
+                </div>
+                <div class="aaaa">
+                
+                ${items.originalPrice ? `<div class="product-original-price">$${items.originalPrice}</div>` : ''}
+                ${items.savings ? `<div class="product-savings">${items.savings}</div>` : ''}
+                
+                
+                </div>
+                
+                
+                
+                <div class="aaaa">
+                <div class="product-rating">
+                    <div class="product-price">$${items.price}</div>
+                  <span class="product-rating-stars">${stars}</span>
+                  <span>${items.rating}</span>
+                </div>
+                <div class="product-sold">${items.sold}+ sold</div>
+                </div>
+                
+                
+                <div class="cart-quantity"> items add to cart: ${cartQuantity}</div>
+                <div class="aaaa">
+                
+                </div>
+            </div>
+          `;
+        });
+      }
+      document.querySelector('.dani').innerHTML = productHTML
+       || "<div>your chart empty</div>";
+       
+      let html;
+      
+      // ✅ Add to cart logic (fixed)
+      document.querySelectorAll('.add-to-cart-js').forEach((button) => {
+        button.addEventListener('click', () => {
+          const itemsName = button.dataset.itemsName;
+
+          let existingItem = cartitem.find(p => p.itemsName === itemsName);
+
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            cartitem.push({ itemsName: itemsName, quantity: 1 });
+          }
+
+          saveTostorage();
+          renderproducts(list); // Re-render only the current list to update quantities
+        });
+      });
+
+      // ✅ Remove from cart logic (fixed)
+      document.querySelectorAll('.remove-from-cart-js').forEach((button) => {
+        button.addEventListener('click', () => {
+          const itemsName = button.dataset.itemsName;
+
+          let existingItem = cartitem.find(p => p.itemsName === itemsName);
+
+          if(existingItem){
+            existingItem.quantity -= 1;
+
+            // Remove item if quantity is 0
+            if(existingItem.quantity <= 0){
+              cartitem = cartitem.filter(p => p.itemsName !== itemsName);
+            }
+          }
+
+          saveTostorage();
+          renderproducts(list); // Re-render only the current list to update quantities
+        });
+      });
+    }
+
+    // Initial render
+    renderproducts(products);
+
+    // Search functionality
+    const searchInput = document.querySelector('.input-js');
+    const searchButton = document.getElementById('search-glass-js');
+
+    function doSearch() {
+      const query = searchInput.value.toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+      renderproducts(filtered);
+    }
+
+    searchInput.addEventListener('input', doSearch);
+    searchButton.addEventListener('click', doSearch);
+  </script>
+</body>
+</html>

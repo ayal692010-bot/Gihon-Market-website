@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fresh Produce Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <style>
+        body { 
+            font-family: Arial; 
+            padding: 0;
+            text-align: center;
+            margin: 0;
+            background: #f5f5f5;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            background: white;
+            color: white;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        
+        .back-btn {
+            background: #ff9900;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* FULLSCREEN Image Gallery Styles - FIXED */
+        .gallery-container {
+            margin-top: -127px;
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            overflow: hidden;
+            touch-action: pan-y;
+            
+        }
+
+        .gallery {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            height: 100%;
+            cursor: grab;
+            width: 100%;
+        }
+
+        .gallery:active {
+            cursor: grabbing;
+        }
+
+        .gallery::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-item {
+            flex: 0 0 100%;
+            width: 100%;
+            scroll-snap-align: start;
+            text-align: center;
+            height: 100%;
+            min-width: 100%;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+            -webkit-user-drag: none;
+            user-select: none;
+            background: white;
+        }
+
+        /* Image Indicators */
+        .image-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .indicator.active {
+            background: #ff9900;
+        }
+
+        /* Content container - FIXED */
+        .content-containe {
+            margin-top: 20px;
+            margin-bottom: 80px;
+            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+    
+
+        .product-name {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .product-price {
+            color: #B12704;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart-btn {
+            background: #ffd814;
+            color: #0F1111;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background 0.2s;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #f7ca00;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #2e7d32;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .nav-text {
+            font-size: 12px;
+        }
+
+        /* Specifications Information */
+        .specs-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .specs-title {
+            color: #2e7d32;
+            font-size: 18px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ff9900;
+            padding-bottom: 5px;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .specs-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Quantity Selector */
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .quantity-btn {
+            background: #f0f0f0;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .quantity-display {
+            font-size: 18px;
+            font-weight: bold;
+            min-width: 30px;
+        }
+
+        /* Customer Reviews - FIXED */
+        .reviews-section {
+            background: white;
+            padding-left: 30px;
+            border-radius: 10px;
+            
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+
+        .review-item {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .review-author {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .review-rating {
+            color: #ff9900;
+            margin: 5px 0;
+        }
+
+        /* Favorite Button */
+        .favorite-btn {
+            background: transparent;
+            border: 2px solid #ff4444;
+            color: #ff4444;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.3s;
+        }
+
+        .favorite-btn:hover {
+            background: #ff4444;
+            color: white;
+        }
+
+        .favorite-btn.active {
+            background: #ff4444;
+            color: white;
+        }
+
+        /* Delivery Info */
+        .delivery-info {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .delivery-icon {
+            color: #4CAF50;
+            margin-right: 10px;
+        }
+
+        /* Share Options */
+        .share-options {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .share-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .share-btn:hover {
+            background: #e0e0e0;
+        }
+
+        /* Related Products Slider - FIXED */
+        .related-products {
+            margin: 40px auto;
+            max-width: 500px;
+            width: calc(100% - 40px);
+            box-sizing: border-box;
+        }
+
+        .section-title {
+            color: #2e7d32;
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .products-slide {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: grab;
+        }
+
+        .products-slider:active {
+            cursor: grabbing;
+        }
+
+        .slider-track {
+            display: flex;
+            gap: 15px;
+            transition: transform 0.3s ease-out;
+            padding: 0 15px;
+            user-select: none;
+        }
+
+        .product-card {
+            flex: 0 0 auto;
+            width: 140px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-color: #ff9900;
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            padding:0px;
+            
+            object-fit: contain;
+            border-radius: 8px;
+            margin: 0 auto 10px;
+            pointer-events: none;
+            background: white;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+
+        .product-name {
+            font-weight: bold;
+            color: #2e7d32;
+            font-size: 14px;
+            margin-bottom: 5px;
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
+
+        .product-card:hover .product-name {
+            color: #ff9900;
+        }
+
+        .product-price {
+            color: #B12704;
+            font-weight: bold;
+            font-size: 16px;
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-price {
+            transform: scale(1.1);
+        }
+
+        /* Auto-scroll animation */
+        .auto-scroll {
+            animation: autoScroll 25s linear infinite;
+        }
+
+        .auto-scroll-paused {
+            animation-play-state: paused;
+        }
+
+        @keyframes autoScroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-140px * 8 - 15px * 7));
+            }
+        }
+
+        /* New animation for product cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Staggered animation for product cards */
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
+        .product-card:nth-child(7) { animation-delay: 0.7s; }
+        .product-card:nth-child(8) { animation-delay: 0.8s; }
+
+        /* Pulse animation for price */
+        @keyframes pricePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .price-pulse {
+            animation: pricePulse 2s infinite;
+        }
+
+        /* Slide in animation for section title */
+        .section-title {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: #ff9900;
+            transition: left 0.5s ease;
+        }
+
+        .related-products:hover .section-title::after {
+            left: 0;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-container {
+                height: 50vh;
+            }
+            
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-card {
+                width: 120px;
+            }
+
+            @keyframes autoScroll {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(calc(-120px * 8 - 15px * 7));
+                }
+            }
+        }
+        .aaaa{
+            display: flex;
+        }
+        .product-rate-js{
+            display: flex;
+            margin-top:7px;
+            gap:10px;
+        }
+         .hello {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      padding: 10px 0;
+      z-index: 1000;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+    .account-home-js {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      color: white;
+    }
+
+    .account-home-js a {
+      text-decoration: none;
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .home-back-js {
+      background-color: #1b5e20;
+      display: flex;
+      justify-content: center;
+      padding: 8px;
+      color: white;
+      font-size: 14px;
+    }
+ 
+        .nav-icon {
+      width: 24px;
+      height: 24px;
+      margin-bottom: -4px;
+      
+    }
+
+    .nav-text {
+      font-size: 12px;
+      color: violet;
+    }
+ 
+    
+    
+    body{
+      margin: 0;
+      font-family: Arial, sans-serif;
+      padding-top: 150px; /* Space for fixed headers */
+      background-color: #f5f5f5;
+    }
+
+    
+    .cart-section {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: white;
+    }
+
+    .cart-section a {
+      text-decoration: none;
+      color: red;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin-top:-20px;
+    }
+
+    .cartitem {
+      background-color: #ff9900;
+      color: green;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      position: absolute;
+      top: -5px;
+      right: 10px;
+      margin-top:20px
+      ;
+    }
+
+    .cart-icon {
+      font-size: 24px;
+      margin-top:30px
+    }
+
+    .cart-label {
+      display: flex;
+      font-size: 12px;
+      margin-top: px;
+      color: white;
+      font-size:15px;
+      font-weight:bold;
+    }
+
+    /* Section 2: Search Bar */
+    .section-2 {
+      position: fixe;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      background-color: #2e7d32;
+      padding: 8px 15px;
+      z-index: 999;
+      box-sizing: border-box;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 20px;
+      border: solid;
+      padding: 5px 10px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .input-js {
+      border: solid;
+      outline: none;
+      padding: 8px;
+      flex: 1;
+      width: 100%;
+      border-radius: 15px;
+    }
+
+    #search-glass-js {
+    
+      
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      margin-left: -27px;
+    }
+
+
+
+    /* Section 4: Products Grid */
+    .section-4 {
+      padding: 15px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .dani {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+      .ayal {
+      border: 1px soli #ddd;
+      border-radius: 8px;
+      padding-left: 1px;
+      text-align: left;
+      background: #ff;
+      
+      transition: transform 0.2s, box-shadow
+       0.2s;
+      position: relative;
+      font-size:20px;
+      padding-bottom: -15px;
+      gap:100px;
+      
+      
+      
+      
+    }
+
+    
+    .product-images {
+      width: 100%;
+      height: 400px; /* ⬆️ CHANGED from 120px to 200px */
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-size:40px;
+      padding-top:-20px;
+    }
+@media (max-width: 768px) {
+  .dani {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px; /* Further reduced gap on mobile */
+  }
+  
+  .ayal {
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .product-images {
+    height: 140px;
+  }
+}
+
+@media (max-width: 550px) {
+  .dani {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px; /* Minimal gap on very small screens */
+  }
+  
+  .ayal {
+    padding: 1px;
+    font-size: 12px;
+  }
+  
+  .product-images {
+    height: 160px;
+    
+  }
+}
+  .product-title {
+      font-size: 14px;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      height: 36px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      color: grey;
+    }
+    
+    a{
+        text-decoration:none;
+    }
+    .product-original-price {
+      color: #565959;
+      text-decoration: line-through;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .product-savings {
+      color: #B12704;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+
+    .product-rating-stars {
+      color: #FFA41C;
+      margin-right: 5px;
+    }
+
+    .product-sold {
+      color: #565959;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .product-badge {
+      background-color: tomato;
+      color: white;
+      
+      font-size: 12px;
+      margin-bottom: 5px;
+      padding-bottom:-20px;
+      border-radius: 3px;
+      
+    }
+
+    .product-shipping {
+      color: #565959;
+      font-size: 12px;
+      margin-bottom: 5px;
+      padding-bottom:-20px;
+      
+      
+    }
+
+ .add-to-cart-js {
+      display: block;
+      margin: 10px auto 5px;
+      background-color: green;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      width: 80%;
+      transition: background-color 0.2s;
+    }
+
+    .add-to-cart-js:hover {
+      background-color: #f7ca00;
+    }
+
+    .remove-from-cart-js {
+      display: block;
+      margin: 5px auto;
+      background-color: #ff4d4d;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
+      width: 80%;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    .remove-from-cart-js:hover {
+      background-color: #ff3333;
+    }
+
+
+    .cart-quantity {
+      color: #666;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      
+      text-align: center;
+    }
+
+    
+    
+
+    .no-items-found {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      font-size: 18px;
+      color: #555;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .dani {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 10px;
+      }
+      
+      .section-1, .section-2, .section-3 {
+        padding: 8px 10px;
+      }
+      
+      
+    
+    @media (max-width: 480px) {
+      .dani {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+      
+      .cart-section {
+        margin-left: 10px;
+      }
+      
+      .product-images {
+        height: 150px; /* ⬆️ CHANGED from 80px to 150px */
+      }
+    }
+    .Gihon{
+       display: flex;
+      align-items: center;
+      gap: 5px;
+      color: tomato;
+      font-weight :bold;
+   }
+   a{
+       text-decoration:none;
+   }
+    .image-move-js:hover,
+  .image-move-js:active,
+  .image-move-js:focus {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    -webkit-tap-highlight-color:  transparent !important;
+}
+
+   
+.aaaa{
+    display:flex;
+    gap:10px;
+}
+   .product-images {
+    height: 100px; /* Desktop */
+}
+
+@media (max-width: 768px) {
+    .product-images {
+        height: 200px; /* Tablet */
+    }
+}
+
+@media (max-width: 480px) {
+    .product-images {
+        height: 170px; /* Mobile */
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    
+    
+    <div class="header">
+    <div class="search-container">
+      <input class="input-js" placeholder="Search fresh produce...">
+      <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" alt="Search" id="search-glass-js">
+    </div>
+  </div>
+
+    <!-- Image Gallery -->
+    <div class="gallery-container">
+        <div class="gallery" id="imageGallery">
+            <!-- Images will be inserted here by JavaScript -->
+        </div>
+        
+        <!-- Image Indicators -->
+        <div class="image-indicators" id="imageIndicators">
+            <!-- Indicators will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-container">
+        <!-- Product Information -->
+        <div id="product-display">
+            <!-- Product details will be inserted here by JavaScript -->
+        </div>
+
+        <!-- Related Products Slider -->
+        <div class="related-products">
+            <h3 class="section-title">You May Also Like</h3>
+            <div class="products-slider" id="productsSliderContainer">
+                <div class="slider-track auto-scroll" id="productsSlider">
+                    <!-- Related products will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Sections -->
+        <div id="additional-sections">
+            <!-- Additional sections will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+     <div class="section-4">
+         <div class="section-title">more products</div>
+    <div class="dani"></div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="hello">
+    <div class="account-home-js">
+      <a href="fruit-vegetable.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Home" class="nav-icon">
+        <div class="nav-text">Home</div>
+      </a>
+      <a href="#">
+        <img src="https://cdn-icons-png.flaticon.com/512/126/126425.png" alt="Storage" class="nav-icon">
+        <div class="nav-text">Storage</div>
+      </a>
+      <a href="#">
+        <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Gift" class="nav-icon">
+        <div class="nav-text">Gift</div>
+      </a>
+      <a href="checkout.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/2331/2331965.png" alt="Checkout" class="nav-icon">
+        <div class="nav-text">Checkout</div>
+      </a>
+    </div>
+  </div>
+    <script>
+      // UNIQUE image collections for EACH fruit/vegetable
+        const produceImages = {
+            'Apple': [
+                'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&auto=format&fit=crop'
+            ],
+            'Banana': [
+                'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1543218024-57d7015aac44?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&auto=format&fit=crop&crop=center'
+            ],
+            'Mango': [
+                'Gihon/Screenshot_20251008_192631_AliExpress.jpg',
+                'Gihon/Screenshot_20251008_192829_AliExpress.jpg',
+                'Gihon/Screenshot_20251008_192829_AliExpress.jpg'
+            ],
+            'Pear': [
+                'https://images.unsplash.com/photo-1574856344991-aaa31b6f4ce3?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1546874177-9e664107314e?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1574856344991-aaa31b6f4ce3?w=400&auto=format&fit=crop&crop=center'
+            ],
+            'Pineapple': [
+                'https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1589820295886-ec2c94ab55f4?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=400&auto=format&fit=crop&crop=center'
+            ],
+            'Orange': [
+                'https://images.unsplash.com/photo-1547514701-42782101795e?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1557800636-894a64c1696f?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1547514701-42782101795e?w=400&auto=format&fit=crop&crop=center'
+            ],
+            'Grapes': [
+                'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&auto=format&fit=crop&crop=center'
+            ],
+            'Strawberry': [
+                'https://images.unsplash.com/photo-1464454709131-ffd692591ee5?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1562442572-8e1ad4956e89?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1464454709131-ffd692591ee5?w=400&auto=format&fit=crop&crop=center'
+            ],
+            'Carrot': [
+                'https://images.unsplash.com/photo-1445282768818-728615cc910a?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1445282768818-728615cc910a?w=400&auto=format&fit=crop&crop=center'
+            ],
+            'Cabbage': [
+                'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1571771316370-3c6b4b8e8c0d?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&auto=format&fit=crop&crop=center'
+            ],
+            'Lemon': [
+                'https://images.unsplash.com/photo-1587496679742-bad502958fbf?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1587496679742-bad502958fbf?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1587496679742-bad502958fbf?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Tomato': [
+                "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=300",
+                "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=300", 
+        
+                "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=300",
+                "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=300"
+            ],
+            'Potato': [
+                'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Chili': [
+                'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Watermelon': [
+                'https://images.unsplash.com/photo-1563114775-7cd29c9c4aaf?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1563114775-7cd29c9c4aaf?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1563114775-7cd29c9c4aaf?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'Corn': [
+                'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=400&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=400&auto=format&fit=crop&crop=center',
+                'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=400&auto=format&fit=crop&crop=top'
+            ],
+            'default': [
+                'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400&auto=format&fit=crop'
+            ]
+        };
+
+
+        // Related products data
+        const relatedProducts = [
+            { name: 'Apple', price: 2.99, image: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=200&auto=format&fit=crop' },
+            { name: 'Banana', price: 1.49, image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=200&auto=format&fit=crop' },
+            { name: 'Orange', price: 3.99, image: 'https://images.unsplash.com/photo-1547514701-42782101795e?w=200&auto=format&fit=crop' },
+            { name: 'Grapes', price: 4.99, image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=200&auto=format&fit=crop' }
+        ];
+        
+        // Nutrition data
+        const nutritionData = {
+            'Apple': { calories: 52, protein: '0.3g', carbs: '14g', fiber: '2.4g', vitaminC: '7%' },
+            'Banana': { calories: 89, protein: '1.1g', carbs: '23g', fiber: '2.6g', vitaminC: '14%' },
+            'default': { calories: 50, protein: '1g', carbs: '12g', fiber: '2g', vitaminC: '20%' }
+        };
+        
+        // Specifications data for produce
+        const specsData = {
+            'Apple': { 
+                'Type': 'Fruit', 
+                'Origin': 'Local Farm', 
+                'Storage': 'Refrigerate', 
+                'Shelf Life': '2-3 weeks',
+                'Organic': 'Yes'
+            },
+            'Banana': { 
+                'Type': 'Fruit', 
+                'Origin': 'Tropical', 
+                'Storage': 'Room Temperature', 
+                'Shelf Life': '5-7 days',
+                'Organic': 'No'
+            },
+            'default': { 
+                'Type': 'Produce', 
+                'Origin': 'Local', 
+                'Storage': 'Cool & Dry', 
+                'Shelf Life': '1-2 weeks',
+                'Organic': 'No'
+            }
+        };
+
+        const reviewsData = {
+            'Apple': [
+                { author: 'John D.', rating: 5, comment: 'Very fresh and crispy!', date: '2024-01-15' }
+            ],
+            'default': [
+                { author: 'Customer', rating: 4, comment: 'Good quality product', date: '2024-01-01' }
+            ]
+        };
+        
+        
+        
+        const products = [
+      { 
+        image: "https://images.unsplash.com/photo-1574856344991-aaa31b6f4ce3?w=300", 
+        name: "Pear", 
+        price: 15 
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=300", 
+        name: "Pineapple", 
+        price: 20 
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=300", 
+        name: "Banana", 
+        price: 15 
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1553279768-865429fa0078?w=300", 
+        name: "Mango", 
+        price: 23 
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300", 
+        name: "Grapes", 
+        price: 8 
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1464454709131-ffd692591ee5?w=300", 
+        name: "Strawberry", 
+        price: 15 
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=300", 
+        name: "Apple", 
+        price: 2
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1547514701-42782101795e?w=300", 
+        name: "Orange", 
+        price: 3
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1445282768818-728615cc910a?w=300", 
+        name: "Carrot", 
+        price: 8
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300", 
+        name: "Cabbage", 
+        price: 3
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1587496679742-bad502958fbf?w=300", 
+        name: "Lemon", 
+        price: 10
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=300", 
+        name: "Tomato", 
+        price: 8
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=300", 
+        name: "Potato", 
+        price: 3
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300", 
+        name: "Chili", 
+        price: 7
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1563114775-7cd29c9c4aaf?w=300", 
+        name: "Watermelon", 
+        price: 10
+      },
+      { 
+        image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=300", 
+        name: "Corn", 
+        price: 8
+      }
+    ];
+    
+
+        let currentImageIndex = 0;
+        let currentQuantity = 1;
+        let isFavorite = false;
+        let galleryAutoScrollInterval;
+
+        // Auto-scroll for main image gallery
+        function startGalleryAutoScroll() {
+            const gallery = document.getElementById('imageGallery');
+            const totalImages = gallery.children.length;
+            
+            if (totalImages <= 1) return;
+            
+            clearInterval(galleryAutoScrollInterval);
+            
+            galleryAutoScrollInterval = setInterval(() => {
+                currentImageIndex = (currentImageIndex + 1) % totalImages;
+                scrollToImage(currentImageIndex);
+            }, 4000);
+        }
+
+        function stopGalleryAutoScroll() {
+            clearInterval(galleryAutoScrollInterval);
+        }
+
+        // Display image gallery
+        function displayImageGallery(images, productName) {
+            const galleryElement = document.getElementById('imageGallery');
+            const indicatorsElement = document.getElementById('imageIndicators');
+            
+            galleryElement.innerHTML = '';
+            indicatorsElement.innerHTML = '';
+            
+            images.forEach((image, index) => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.innerHTML = `
+                    <img src="${image}" alt="${productName} ${index + 1}" class="gallery-image"
+                         draggable="false">
+                `;
+                galleryElement.appendChild(galleryItem);
+                
+                const indicator = document.createElement('div');
+                indicator.className = `indicator ${index === 0 ? 'active' : ''}`;
+                indicator.onclick = () => {
+                    stopGalleryAutoScroll();
+                    scrollToImage(index);
+                    setTimeout(startGalleryAutoScroll, 5000);
+                };
+                indicatorsElement.appendChild(indicator);
+            });
+            
+            currentImageIndex = 0;
+            startGalleryAutoScroll();
+        }
+
+        function scrollToImage(index) {
+            const gallery = document.getElementById('imageGallery');
+            const scrollAmount = gallery.clientWidth * index;
+            
+            gallery.scrollTo({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+            
+            currentImageIndex = index;
+            updateActiveIndicator();
+        }
+
+        function updateActiveIndicator() {
+    const dots = document.querySelectorAll('.indicator');
+    dots.forEach((dot, index) => {
+        if (index === currentImageIndex) {
+           dot.style.background = '#ff9900';  
+        } else {
+          dot.style.background = 'rgba(0, 0, 0, 0.5)'; 
+        }
+    });
+}
+         
+        // Show product details
+        function showProductDetails() {
+            const savedProduct = localStorage.getItem('chosenProduce');
+            
+            if (savedProduct) {
+                const product = JSON.parse(savedProduct);
+                
+                checkIfFavorite(product.name);
+                
+                const images = produceImages[product.name] || produceImages.default;
+                
+                displayImageGallery(images, product.name);
+                displayRelatedProducts(product.name);
+                
+                document.getElementById('product-display').innerHTML = `
+                    <div class="product-info">
+                        <h1 class="product-name">${product.name}</h1>
+                        
+                        <p style="color: #666; margin-bottom: 20px; font-size:15px; color: black;">Fresh ${product.name.toLowerCase()} harvested at peak ripeness for maximum flavor and nutrition.
+                        </p>
+                        
+                        <div class="aaaa">
+                            <div class="review-rating">
+                                ${'★'.repeat(5)}
+                            </div>
+                            <div class="product-rate-js">${product.rating || 4.5}</div>
+                            <div class="product-rate-js">/${product.sold || 120} sold</div>
+                        </div>
+                        
+                        <div class="product-price">$${product.price}</div>
+                        
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="updateQuantity(-1)">-</button>
+                            <span class="quantity-display" id="quantityDisplay">${currentQuantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity(1)">+</button>
+                        </div>
+                        
+                        <button class="add-to-cart-btn" onclick="addToCart('${product.name}', ${product.price})">
+                            🛒 Add to Cart - $${(product.price * currentQuantity).toFixed(2)}
+                        </button>
+                    </div>
+                `;
+
+                updateAdditionalSections(product);
+                document.title = `${product.name} - Fresh Produce`;
+            } else {
+                document.getElementById('product-display').innerHTML = `
+                    <div style="color: red; padding: 40px;">
+                        <h2>No product selected!</h2>
+                        <p>Please go back to fruit-vegetable.html and click on a produce item first.</p>
+                        <button class="back-btn" onclick="goBack()">Go Back to Produce</button>
+                    </div>
+                `;
+            }
+        }
+
+        function updateAdditionalSections(product) {
+            const specs = specsData[product.name] || specsData.default;
+            const reviews = reviewsData[product.name] || reviewsData.default;
+            
+            document.getElementById('additional-sections').innerHTML = `
+                <div class="product-info">
+                    <div class="specs-info">
+                        <h3 class="specs-title">Product Information</h3>
+                        <div class="specs-grid">
+                            ${Object.entries(specs).map(([key, value]) => `
+                                <div class="specs-item">
+                                    <span>${key}:</span>
+                                    <span>${value}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="delivery-info">
+                        <span class="delivery-icon">🚚</span>
+                        <strong>Fresh Delivery</strong> - Get it by tomorrow! Order within 3 hours for next-day delivery.
+                    </div>
+
+                    <div class="share-options">
+                        <button class="share-btn" onclick="shareProduct('${product.name}')">📤 Share</button>
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" id="favoriteBtn" onclick="toggleFavorite()">
+                            ${isFavorite ? '❤️ Saved' : '🤍 Save'}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="reviews-section">
+                    <h3 style="color: #2e7d32; margin-bottom: 15px;">Customer Reviews</h3>
+                    ${reviews.map(review => `
+                        <div class="review-item">
+                            <div class="review-author">${review.author}</div>
+                            <div class="review-rating">${'★'.repeat(review.rating)}${'☆'.repeat(5-review.rating)}</div>
+                            <div>${review.comment}</div>
+                            <small style="color: #666;">${review.date}</small>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function updateQuantity(change) {
+            currentQuantity = Math.max(1, currentQuantity + change);
+            document.getElementById('quantityDisplay').textContent = currentQuantity;
+            updateAddToCartButton();
+        }
+
+        function updateAddToCartButton() {
+            const product = JSON.parse(localStorage.getItem('chosenProduce'));
+            const totalPrice = (product.price * currentQuantity).toFixed(2);
+            document.querySelector('.add-to-cart-btn').innerHTML = 
+                `🛒 Add to Cart - $${totalPrice}`;
+        }
+
+        function toggleFavorite() {
+            isFavorite = !isFavorite;
+            const favoriteBtn = document.getElementById('favoriteBtn');
+            favoriteBtn.classList.toggle('active', isFavorite);
+            favoriteBtn.innerHTML = isFavorite ? '❤️ Saved' : '🤍 Save';
+            
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            const product = JSON.parse(localStorage.getItem('chosenProduce'));
+            
+            if (isFavorite) {
+                if (!favorites.find(f => f.name === product.name)) {
+                    favorites.push(product);
+                }
+            } else {
+                favorites = favorites.filter(f => f.name !== product.name);
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        function shareProduct(productName) {
+            if (navigator.share) {
+                navigator.share({
+                    title: productName,
+                    text: `Check out this fresh ${productName} on our produce store!`,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Product link copied to clipboard!');
+            }
+        }
+
+        function checkIfFavorite(productName) {
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            isFavorite = favorites.some(f => f.name === productName);
+        }
+
+        function addToCart(productName, price) {
+            let cart = JSON.parse(localStorage.getItem('cartitem')) || [];
+            let existingItem = cart.find(item => item.itemsName === productName);
+
+            if (existingItem) {
+                existingItem.quantity += currentQuantity;
+            } else {
+                cart.push({ 
+                    itemsName: productName, 
+                    quantity: currentQuantity,
+                    price: price,
+                    image: produceImages[productName] ? produceImages[productName][0] : ''
+                });
+            }
+
+            localStorage.setItem('cartitem', JSON.stringify(cart));
+            alert(`✅ ${currentQuantity} ${productName}${currentQuantity > 1 ? 's' : ''} added to cart!`);
+            currentQuantity = 1;
+            document.getElementById('quantityDisplay').textContent = currentQuantity;
+            updateAddToCartButton();
+        }
+
+        // Display related products
+        function displayRelatedProducts(currentProductName) {
+            const slider = document.getElementById('productsSlider');
+            const filteredProducts = relatedProducts.filter(product => product.name !== currentProductName);
+            
+            // Duplicate products for seamless loop
+            const productsToShow = [...filteredProducts, ...filteredProducts];
+            
+            slider.innerHTML = productsToShow.map(product => `
+                <div class="product-card" onclick="selectRelatedProduct('${product.name}', ${product.price}, '${product.image}')">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-price">$${product.price}</div>
+                </div>
+            `).join('');
+        }
+
+        // Handle related product selection
+        function selectRelatedProduct(name, price, image) {
+            const product = {
+                name: name,
+                price: price,
+                image: image
+            };
+            
+            localStorage.setItem('chosenProduce', JSON.stringify(product));
+            showProductDetails();
+            window.scrollTo(0, 0);
+        }
+
+        function goBack() {
+            window.location.href = 'fruit-vegetable.html';
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', showProductDetails);
+        
+        
+            // Function to handle product selection - UPDATED to display images in gallery
+    function selectProduct(productName, productPrice, productImage) {
+        const selectedProduct = {
+            name: productName,
+            price: productPrice,
+            image: productImage
+        };
+        
+        // Store the selected product in localStorage
+        localStorage.setItem('chosenProduce', JSON.stringify(selectedProduct));
+        
+        // Display the selected product's images in gallery and update details
+        displaySelectedProduct(selectedProduct);
+    }
+    
+    // Function to display selected product in gallery and update details
+    function displaySelectedProduct(product) {
+        // Get images for the selected product
+        const images = produceImages[product.name] || produceImages.default;
+        
+        // Display images in gallery
+        displayImageGallery(images, product.name);
+        
+        // Update product details
+        document.getElementById('product-display').innerHTML = `
+            <div class="product-inf">
+                <h1 class="product-name">${product.name}</h1>
+                
+                <p style="color: #666; margin-bottom: 20px; font-size:15px; color: black;">Fresh ${product.name.toLowerCase()} harvested at peak ripeness for maximum flavor and nutrition.
+                </p>
+                
+                <div class="aaaa">
+                    <div class="review-rating">
+                        ${'★'.repeat(5)}
+                    </div>
+                    <div class="product-rate-js">4.5</div>
+                    <div class="product-rate-js">/120 sold</div>
+                </div>
+                
+                <div class="product-price">$${product.price}</div>
+                
+                <div class="quantity-selector">
+                    <button class="quantity-btn" onclick="updateQuantity(-1)">-</button>
+                    <span class="quantity-display" id="quantityDisplay">${currentQuantity}</span>
+                    <button class="quantity-btn" onclick="updateQuantity(1)">+</button>
+                </div>
+                
+                <button class="add-to-cart-btn" onclick="addToCart('${product.name}', ${product.price})">
+                    🛒 Add to Cart - $${(product.price * currentQuantity).toFixed(2)}
+                </button>
+            </div>
+        `;
+
+        // Update additional sections
+        updateAdditionalSections(product);
+        
+        // Update related products
+        displayRelatedProducts(product.name);
+        
+        // Scroll to top to show the gallery
+        window.scrollTo(0, 0);
+        
+        // Show success message
+        alert(`${product.name} is now displayed!`);
+    }
+    
+    
+    // Load cart from localStorage
+    let cartitem = JSON.parse(localStorage.getItem('cartitem')) || [];
+
+    
+    
+
+    function renderproducts(list){
+      let productHTML = "";
+      if(list.length === 0){
+        productHTML += `<div class="no-items-found"> ❌ No results found</div>`;
+      } else {
+      list.forEach((items)=>{
+        // Find current quantity in cart for this product
+          let cartQuantity = 0;
+          let existingItem = cartitem.find(p => p.itemsName === items.name);
+          if (existingItem) {
+            cartQuantity = existingItem.quantity;
+          }
+        
+          productHTML += `
+            <div class="ayal">
+                <a href="javascript:void(0)" onclick="selectProduct('${items.name}', ${items.price}, '${items.image}')">
+              <img src="${items.image}" alt="${items.name}" class="product-images">
+              <div style="font-weight:bold; margin-bottom:5px;">${items.name}</div>
+              </a>
+              <div style="color:#B12704; font-weight:bold; margin-bottom:10px;">$${items.price}</div>
+              <div style="color:#666; margin-bottom:10px; font-size:14px;">In cart: ${cartQuantity}</div>
+              
+            </div>
+          `;
+        });
+      }
+      document.querySelector('.dani').innerHTML = productHTML;
+
+      // ✅ Add to cart logic (fixed)
+      document.querySelectorAll('.add-to-cart-js').forEach((button) => {
+        button.addEventListener('click', () => {
+          const itemsName = button.dataset.itemsName;
+
+          let existingItem = cartitem.find(p => p.itemsName === itemsName);
+
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            cartitem.push({ itemsName: itemsName, quantity: 1 });
+          }
+
+          saveTostorage();
+        });
+      });
+
+      // ✅ Remove from cart logic (fixed)
+      document.querySelectorAll('.remove-from-cart-js').forEach((button) => {
+        button.addEventListener('click', () => {
+          const itemsName = button.dataset.itemsName;
+
+          let existingItem = cartitem.find(p => p.itemsName === itemsName);
+
+          if(existingItem){
+            existingItem.quantity -= 1;
+
+            // Remove item if quantity is 0
+            if(existingItem.quantity <= 0){
+              cartitem = cartitem.filter(p => p.itemsName !== itemsName);
+            }
+          }
+
+          saveTostorage();
+
+          
+          
+        });
+      });
+    }
+
+    // Initial render
+    renderproducts(products);
+
+    // Search functionality
+    const searchInput = document.querySelector('.input-js');
+    const searchButton = document.getElementById('search-glass-js');
+
+    function doSearch() {
+      const query = searchInput.value.toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+      renderproducts(filtered);
+    }
+
+    searchInput.addEventListener('input', doSearch);
+    searchButton.addEventListener('click', doSearch);
+    </script>
+</body>
+</html>
